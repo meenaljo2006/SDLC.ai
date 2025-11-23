@@ -1,0 +1,220 @@
+.wf-section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wf-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.wf-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.wf-header p {
+  color: #9ca3af;
+}
+
+/* --- MAIN CONSOLE LAYOUT --- */
+.wf-console-container {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Left side smaller, Right side larger */
+  gap: 4rem;
+  align-items: center;
+}
+
+/* --- LEFT: NAVIGATION LIST --- */
+.wf-console-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.wf-nav-item {
+  display: flex;
+  gap: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 2.5rem; /* Space for the connecting line */
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.wf-nav-item:last-child {
+  padding-bottom: 0;
+}
+
+.wf-nav-item:hover, .wf-nav-item.active {
+  opacity: 1;
+}
+
+/* The Vertical Line & Dot System */
+.wf-nav-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wf-nav-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background: #0a0a0a;
+}
+
+.wf-dot-fill {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.wf-nav-line {
+  flex: 1;
+  width: 2px;
+  background: #333;
+  margin-top: 4px;
+  min-height: 40px; /* Minimum height for the line */
+}
+
+/* Labels */
+.wf-nav-label {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0px; /* Align text with dot */
+}
+
+.wf-nav-title {
+  color: #d1d5db;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.wf-nav-code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* --- RIGHT: THE STAGE --- */
+.wf-console-stage {
+  position: relative;
+  height: 300px; /* Fixed height to prevent jumping */
+}
+
+.wf-stage-card {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid; /* Color set inline by JS */
+  border-radius: 24px;
+  padding: 3rem;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.wf-stage-icon-bg {
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wf-stage-content {
+  flex: 1;
+}
+
+.wf-stage-content h3 {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.wf-stage-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', monospace;
+  color: #d1d5db;
+  margin-bottom: 1.5rem;
+}
+
+.wf-stage-content p {
+  color: #9ca3af;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+/* Decoration Corners */
+.wf-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-style: solid;
+  opacity: 0.5;
+}
+
+.wf-top-left {
+  top: 16px;
+  left: 16px;
+  border-width: 2px 0 0 2px;
+}
+
+.wf-bottom-right {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .wf-console-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .wf-console-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+  }
+
+  .wf-nav-item {
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    text-align: center;
+    padding-bottom: 0;
+    gap: 0.5rem;
+  }
+
+  .wf-nav-line { display: none; }
+  
+  .wf-nav-label {
+    align-items: center;
+  }
+
+  .wf-stage-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    padding: 2rem;
+  }
+}

@@ -1,0 +1,25 @@
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  
+  /* Color Variables */
+  --bg-dark: #0a0a0a;
+  --primary-cyan: #22d3ee;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow-x: hidden; /* Prevent scrollbar from animations */
+}
+
+
+
