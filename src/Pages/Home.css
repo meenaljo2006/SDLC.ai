@@ -118,7 +118,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.9rem 1srem; /* Slightly larger to match input height */
+  padding: 0.9rem 1rem; /* Slightly larger to match input height */
   background: #fff;
   color: #000;
   border: none;
