@@ -1,24 +1,35 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Navbar from './Components/Navbar';
-import Home from './Pages/Home';
-import Features from './pages/Features';
+import Home from './pages/Home';
+import Features from './Pages/Features';
+import Workflow from './Pages/Workflow'; // Adjusted based on previous component creation
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import AuthLayout from './Layout/AuthLayout';
+import MainLayout from './Layout/MainLayout';
 import './App.css';
-import Workflow from './Pages/Workflow';
+import './index.css';
 
 const App = () => {
   return (
     <div className="body-wrapper">
       <div className="ambient-glow" />
-      <Navbar />
-      <div className="container">
-        <Routes>
+      
+      <Routes>
+        {/* GROUP 1: Main Pages (Navbar + Container applied here) */}
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<Features />} />
           <Route path="/workflow" element={<Workflow />} />
-        </Routes>
-      </div>
+        </Route>
+
+        {/* GROUP 2: Login/Register (Completely separate, uses AuthLayout) */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+      </Routes>
     </div>
   );
 };

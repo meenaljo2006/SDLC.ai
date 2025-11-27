@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Mail } from 'lucide-react';
 import SDLCVisualizer from '../components/SDLCVisualizer';
 import './Home.css';
-import Workflow from './Workflow';
+import { useNavigate } from "react-router-dom";
 
 // Variants for text appearing
 const containerVariants = {
@@ -23,6 +23,9 @@ const itemVariants = {
 };
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
   return (
     <main className="hero-grid">
       {/* LEFT SIDE */}
@@ -67,7 +70,7 @@ const Home = () => {
             />
           </motion.div>
           
-          <button className="btn-primary">Get Started <ArrowRight size={18}/></button>
+          <button className="btn-primary" onClick={() => navigate("/register")}>Get Started <ArrowRight size={18}/></button>
         </motion.div>
       </motion.div>
 

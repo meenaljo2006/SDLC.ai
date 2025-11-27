@@ -1,0 +1,210 @@
+/* --- LAYOUT CONTAINER --- */
+.auth-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050505;
+  overflow: hidden;
+}
+
+/* --- LEFT SIDE: ANIMATION PANEL --- */
+.auth-left {
+  flex: 1;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Background Grid Effect */
+.auth-grid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+  animation: gridMove 20s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes gridMove {
+  0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
+  100% { transform: perspective(500px) rotateX(60deg) translateY(40px) translateZ(-200px); }
+}
+
+/* Central Scanner Animation */
+.scanner-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(34, 211, 238, 0.1);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.05);
+}
+
+.scanner-core {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.auth-caption {
+  margin-top: 3rem;
+  text-align: center;
+  z-index: 10;
+}
+
+.auth-caption h2 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-caption p {
+  color: #9ca3af;
+  font-size: 1rem;
+}
+
+/* --- RIGHT SIDE: FORM PANEL --- */
+.auth-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.auth-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: #6b7280;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  color: #d1d5db;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-icon {
+  position: absolute;
+  left: 14px;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 12px 12px 42px; /* Left padding for icon */
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  border-color: #22d3ee;
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.1);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #22d3ee, #3b82f6);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+  margin-top: 1rem;
+}
+
+.auth-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.auth-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.auth-link {
+  color: #22d3ee;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+  .auth-left {
+    display: none; /* Hide animation on mobile to focus on login */
+  }
+  
+  .auth-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 1rem;
+  }
+}

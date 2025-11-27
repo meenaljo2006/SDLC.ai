@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 import './Navbar.css';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname === path ? 'active' : '';
 
@@ -26,7 +28,7 @@ const Navbar = () => {
           <Link to="/workflow" className={`nav-item ${isActive('/workflow')}`}>Workflow</Link>
         </div>
 
-        <button className="cta-button">Login</button>
+        <button className="cta-button" onClick={() => navigate("/login")}>Login</button>
       </div>
     </motion.nav>
   );
