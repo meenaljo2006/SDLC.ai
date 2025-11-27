@@ -7,7 +7,7 @@ const WORKFLOW_STEPS = [
   { 
     id: 1, 
     title: "Design Concepts", 
-    subtitle: "PS-04: Design Suggestion", 
+    subtitle: "API-04: Design Suggestion", 
     icon: Lightbulb,
     description: "AI analyzes your abstract requirements and instantly suggests optimal architectural patterns and system designs.",
     color: "#22d3ee" // Cyan
@@ -15,7 +15,7 @@ const WORKFLOW_STEPS = [
   { 
     id: 2, 
     title: "Decision Making", 
-    subtitle: "PS-01: Trade-off Analysis", 
+    subtitle: "API-01: Trade-off Analysis", 
     icon: Scale,
     description: "Automatically compares multiple design options based on cost, performance, scalability, and implementation speed.",
     color: "#a78bfa" // Purple
@@ -23,7 +23,7 @@ const WORKFLOW_STEPS = [
   { 
     id: 3, 
     title: "Proactive Security", 
-    subtitle: "PS-03: Design Risk Analysis", 
+    subtitle: "API-03: Design Risk Analysis", 
     icon: ShieldCheck,
     description: "Scans your proposed architecture for security vulnerabilities and compliance gaps before a single line of code is written.",
     color: "#34d399" // Emerald
@@ -31,7 +31,7 @@ const WORKFLOW_STEPS = [
   { 
     id: 4, 
     title: "Formal Review", 
-    subtitle: "PS-02: Design Review", 
+    subtitle: "API-02: Design Review", 
     icon: FileSearch,
     description: "Generates formal PDR/CDR documentation and checklists, ensuring your design meets all engineering standards.",
     color: "#f472b6" // Pink
@@ -39,7 +39,7 @@ const WORKFLOW_STEPS = [
   { 
     id: 5, 
     title: "Dev Readiness", 
-    subtitle: "PS-06: Test Generation", 
+    subtitle: "API-06: Test Generation", 
     icon: Code2,
     description: "Translates approved designs into actionable development tasks, API skeletons, and comprehensive test cases.",
     color: "#fbbf24" // Amber
