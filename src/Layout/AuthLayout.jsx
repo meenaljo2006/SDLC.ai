@@ -1,83 +1,128 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom'; // Placeholder for Login/Register content
+import { Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Lock, Activity } from 'lucide-react';
+import { 
+  Cpu, 
+  Code2, Bug, Puzzle,           // Inner Orbit (Dev/Test)
+  ShieldCheck, Database, Rocket, // Middle Orbit (Sec/Data/Version)
+  Server, Clock, Lightbulb,  Network// Outer Orbit (Ops/Plan)
+
+} from 'lucide-react';
 import './AuthLayout.css';
 
 const AuthLayout = () => {
+  // Group 1: Inner Orbit (Development Focus)
+  const innerIcons = [Code2, Bug, Puzzle];
+  
+  // Group 2: Middle Orbit (Infrastructure & Security)
+  const middleIcons = [ShieldCheck, Database, Rocket];
+
+  // Group 3: Outer Orbit (Planning & Operations)
+  const outerIcons = [Server, Clock, Lightbulb,Network];
+
   return (
     <div className="auth-container">
-      {/* LEFT SIDE: ANIMATION */}
+      {/* LEFT SIDE: ORBIT ANIMATION */}
       <div className="auth-left">
         <div className="auth-grid-bg" />
         
-        {/* Central Scanner Animation */}
-        <div className="scanner-core">
-          <motion.div 
-            className="scanner-ring"
-            style={{ width: 300, height: 300, borderStyle: 'dashed' }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div 
-            className="scanner-ring"
-            style={{ width: 220, height: 220, borderColor: '#22d3ee', borderWidth: '2px' }}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div 
-            className="scanner-ring"
-            style={{ width: 140, height: 140, borderStyle: 'dotted' }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
+        <div className="orbit-scene">
           
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0.5 }}
-            animate={{ scale: [0.8, 1.1, 0.8], opacity: [0.5, 1, 0.5] }}
+          {/* --- CENTRAL CORE --- */}
+          <motion.div 
+            className="orbit-core"
+            animate={{ scale: [1, 1.1, 1], opacity: [0.8, 1, 0.8] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            <ShieldCheck size={64} color="#22d3ee" />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+              <Cpu size={36} color="#000" />
+            </div>
           </motion.div>
+
+          {/* --- ORBIT 1: INNER (Fastest) --- */}
+          <motion.div 
+            className="orbit-ring inner-ring"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          >
+            {innerIcons.map((Icon, index) => (
+              <div 
+                key={index}
+                className="orbit-item"
+                style={{ 
+                  transform: `rotate(${index * (360 / innerIcons.length)}deg) translate(110px) rotate(-${index * (360 / innerIcons.length)}deg)` 
+                }}
+              >
+                <div className="icon-wrapper" style={{ borderColor: '#22d3ee', boxShadow: '0 0 10px rgba(34, 211, 238, 0.4)' }}>
+                  <Icon size={18} color="#22d3ee" />
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* --- ORBIT 2: MIDDLE (Medium Speed, Reverse) --- */}
+          <motion.div 
+            className="orbit-ring middle-ring"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          >
+            {middleIcons.map((Icon, index) => (
+              <div 
+                key={index}
+                className="orbit-item"
+                style={{ 
+                  transform: `rotate(${index * (360 / middleIcons.length)}deg) translate(170px) rotate(-${index * (360 / middleIcons.length)}deg)` 
+                }}
+              >
+                <div className="icon-wrapper" style={{ borderColor: '#34d399', boxShadow: '0 0 10px rgba(52, 211, 153, 0.4)' }}>
+                  <Icon size={18} color="#34d399" />
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* --- ORBIT 3: OUTER (Slowest) --- */}
+          <motion.div 
+            className="orbit-ring outer-ring"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+          >
+            {outerIcons.map((Icon, index) => (
+              <div 
+                key={index}
+                className="orbit-item"
+                style={{ 
+                  transform: `rotate(${index * (360 / outerIcons.length)}deg) translate(230px) rotate(-${index * (360 / outerIcons.length)}deg)` 
+                }}
+              >
+                <div className="icon-wrapper" style={{ borderColor: '#a78bfa', boxShadow: '0 0 10px rgba(167, 139, 250, 0.4)' }}>
+                  <Icon size={18} color="#a78bfa" />
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
         </div>
 
-        {/* Floating Code Particles */}
-        <motion.div 
-            animate={{ y: [0, -20, 0], opacity: [0.3, 0.8, 0.3] }} 
-            transition={{ duration: 4, repeat: Infinity }}
-            style={{ position: 'absolute', top: '20%', left: '20%' }}
-        >
-            <Lock size={24} color="#a78bfa" />
-        </motion.div>
-        <motion.div 
-            animate={{ y: [0, 20, 0], opacity: [0.3, 0.8, 0.3] }} 
-            transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-            style={{ position: 'absolute', bottom: '25%', right: '20%' }}
-        >
-            <Activity size={24} color="#34d399" />
-        </motion.div>
-
         <div className="auth-caption">
-          <motion.h2
-            initial={{ y: 20, opacity: 0 }}
+          <motion.h2 
+            initial={{ y: 20, opacity: 0 }} 
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.2 }}
           >
-            Secure Access
+            Intelligent SDLC
           </motion.h2>
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
+          <motion.p 
+            initial={{ y: 20, opacity: 0 }} 
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.4 }}
           >
-            Authenticate to enter the Intelligent SDLC Environment.
+            Orchestrating design, security, and code in one seamless loop.
           </motion.p>
         </div>
       </div>
 
-      {/* RIGHT SIDE: FORM OUTLET */}
+      {/* RIGHT SIDE: OUTLET FOR FORMS */}
       <div className="auth-right">
-        {/* The Login or Register component will render here */}
         <Outlet />
       </div>
     </div>

@@ -15,7 +15,7 @@ const Login = () => {
           <label className="form-label">Email Address</label>
           <div className="form-input-wrapper">
             <Mail size={18} className="form-icon" />
-            <input type="email" placeholder="name@company.com" className="form-input" />
+            <input type="email" placeholder="name@domain.com" className="form-input" />
           </div>
         </div>
         <div className="form-group">

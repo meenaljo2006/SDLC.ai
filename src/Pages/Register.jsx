@@ -15,14 +15,14 @@ const Register = () => {
           <label className="form-label">Full Name</label>
           <div className="form-input-wrapper">
             <User size={18} className="form-icon" />
-            <input type="text" placeholder="John Doe" className="form-input" />
+            <input type="text" placeholder="Enter your Name" className="form-input" />
           </div>
         </div>
         <div className="form-group">
-          <label className="form-label">Work Email</label>
+          <label className="form-label">Email Address</label>
           <div className="form-input-wrapper">
             <Mail size={18} className="form-icon" />
-            <input type="email" placeholder="name@company.com" className="form-input" />
+            <input type="email" placeholder="name@domain.com" className="form-input" />
           </div>
         </div>
         <div className="form-group">
