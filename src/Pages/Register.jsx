@@ -1,9 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useLocation} from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User } from 'lucide-react';
 
 const Register = () => {
+
+  const location = useLocation();
+  const prefilledEmail = location.state?.email || "";
+
   return (
     <motion.div className="auth-card" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
       <div className="auth-header">
@@ -22,7 +26,7 @@ const Register = () => {
           <label className="form-label">Email Address</label>
           <div className="form-input-wrapper">
             <Mail size={18} className="form-icon" />
-            <input type="email" placeholder="name@domain.com" className="form-input" />
+            <input type="email" placeholder="name@domain.com" className="form-input" defaultValue={prefilledEmail}/>
           </div>
         </div>
         <div className="form-group">

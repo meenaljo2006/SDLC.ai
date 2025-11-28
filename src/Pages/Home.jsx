@@ -25,6 +25,7 @@ const itemVariants = {
 const Home = () => {
 
   const navigate = useNavigate();
+  const [email, setEmail] = React.useState("");
 
   return (
     <main className="hero-grid">
@@ -66,11 +67,13 @@ const Home = () => {
               type="email" 
               placeholder="Enter work email..." 
               className="hero-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               style={{ marginLeft: '10px' }}
             />
           </motion.div>
           
-          <button className="btn-primary" onClick={() => navigate("/register")}>Get Started <ArrowRight size={18}/></button>
+          <button className="btn-primary" onClick={() => navigate("/register", { state: { email } })}>Get Started <ArrowRight size={18}/></button>
         </motion.div>
       </motion.div>
 
