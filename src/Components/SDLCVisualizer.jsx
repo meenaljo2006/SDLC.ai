@@ -138,7 +138,7 @@ const SDLCVisualizer = () => {
         </div>
         <div className="window-content">
           <div className="status-line">
-            <span>SYSTEM_ID: <span style={{color:'#fff'}}>SDLC-V2</span></span>
+            <span>SYSTEM_ID: <span style={{color:'#fff'}}>SDLC-V1</span></span>
             <span className="status-badge">ONLINE</span>
           </div>
           <div className="log-container">
