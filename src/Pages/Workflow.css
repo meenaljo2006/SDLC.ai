@@ -33,7 +33,11 @@
 .wf-console-nav {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  overflow-y: auto;
+  max-height: 380px;
+  width: 300px;
+  scrollbar-width: thin;
+   scrollbar-color: rgba(255, 255, 255, 0.404) rgba(255, 255, 255, 0.05);
 }
 
 .wf-nav-item {

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lightbulb, Scale, ShieldCheck, FileSearch, Code2 } from 'lucide-react';
+import { Lightbulb, Scale, ShieldCheck, FileSearch, Code2 ,CheckSquare,Cpu,Bug,Clock} from 'lucide-react';
 import './Workflow.css';
 
 const WORKFLOW_STEPS = [
+  // --- Phase 1: Design & Readiness ---
   { 
     id: 1, 
     title: "Design Concepts", 
@@ -43,7 +44,42 @@ const WORKFLOW_STEPS = [
     icon: Code2,
     description: "Translates approved designs into actionable development tasks, API skeletons, and comprehensive test cases.",
     color: "#fbbf24" // Amber
+  },
+
+  // --- Phase 2: Development & Quality ---
+  { 
+    id: 6, 
+    title: "Code Compliance", 
+    subtitle: "API-07: Compliance Check", 
+    icon: CheckSquare,
+    description: "Ensures code adheres to internal style guides and security protocols automatically during or after development.",
+    color: "#10b981", // Green
+  },
+  { 
+    id: 7, 
+    title: "Boilerplate/Efficiency", 
+    subtitle: "API-08: Efficiency & Boilerplate", 
+    icon: Clock,
+    description: "Generates repetitive code blocks (e.g., ORM models, routes) to maximize developer speed and focus on core logic.",
+    color: "#a78bfa", // Purple
+  },
+  { 
+    id: 8, 
+    title: "Troubleshooting", 
+    subtitle: "API-09: Debugging", 
+    icon: Bug,
+    description: "Analyzes stack traces and error logs to provide precise, context-aware fixes and suggested code changes in real-time.",
+    color: "#22d3ee" // Cyan
+  },
+  { 
+    id: 9, 
+    title: "Tech Stack Validation", 
+    subtitle: "API-05: Tech Stack / Performance", 
+    icon: Cpu,
+    description: "A dynamic step to re-validate tool and framework choices against performance goals after integration or feature change.",
+    color: "#fbbf24" // Amber
   }
+
 ];
 
 const Workflow = () => {
