@@ -215,6 +215,16 @@
 .auth-footer { margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #6b7280; }
 .auth-link { color: #22d3ee; text-decoration: none; margin-left: 5px; }
 
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
 @media (max-width: 900px) {
   .auth-container { flex-direction: column; }
   .auth-left { display: none; } 
