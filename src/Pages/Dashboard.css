@@ -1,0 +1,175 @@
+/* LAYOUT */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Transparent background to show global gradient */
+  background-color: transparent; 
+  color: #fff;
+}
+
+.dashboard-body {
+  display: flex;
+  flex: 1;
+  margin-top: 64px; /* Offset for Header */
+}
+
+.dashboard-content {
+  flex: 1;
+  margin-left: 260px; /* Offset for Sidebar */
+  padding: 2rem 3rem;
+  transition: margin-left 0.3s ease;
+}
+
+/* HEADER */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+}
+
+.header-title h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+    /* Optional: Add gradient text if you want it like Home */
+    /* background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; */
+}
+
+.header-title p {
+    color: #94a3b8;
+}
+
+/* User Profile Pill */
+.user-profile-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 8px 16px 8px 8px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #334155, #1e293b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* GRID & CARDS (Glassmorphism) */
+.content-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.dash-card {
+    background: rgba(30, 41, 59, 0.4); /* Transparent Card */
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.dash-card:hover {
+    border-color: rgba(34, 211, 238, 0.3);
+    transform: translateY(-2px);
+}
+
+.card-icon-bg {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.card-info { flex: 1; }
+.card-info h4 { margin: 0 0 0.2rem 0; font-size: 1.1rem; }
+.card-info small { color: #94a3b8; }
+.card-rating { color: #fbbf24; font-weight: bold; }
+
+/* Analysis List */
+.analysis-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+}
+
+.analysis-item {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.analysis-icon {
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 8px;
+    color: #22d3ee;
+}
+
+.view-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.view-btn:hover { background: rgba(34, 211, 238, 0.1); color: #22d3ee; border-color: #22d3ee; }
+
+/* Quick Actions */
+.quick-actions { display: flex; gap: 2rem; margin-top: 1rem; }
+
+.quick-btn {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+.quick-btn:hover { transform: scale(1.05); border-color: rgba(255,255,255,0.2); }
+.quick-btn.blue:hover { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; }
+.quick-btn.green:hover { background: rgba(16, 185, 129, 0.2); border-color: #10b981; }
+.quick-btn.purple:hover { background: rgba(168, 85, 247, 0.2); border-color: #a855f7; }
+
+/* Responsive */
+@media (max-width: 968px) {
+    .dashboard-content { margin-left: 80px; padding: 1.5rem; }
+    .analysis-list { grid-template-columns: 1fr; }
+    .quick-actions { justify-content: center; flex-wrap: wrap; }
+}
