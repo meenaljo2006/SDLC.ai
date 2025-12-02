@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, FileText, Settings, LogOut, ChevronLeft, ChevronRight,
@@ -49,6 +49,26 @@ const Sidebar = () => {
 
   const userEmail = localStorage.getItem('email') || "User";
   const emailInitial = userEmail.charAt(0).toUpperCase();
+
+ 
+  useEffect(() => {
+    // fallback width values
+    const desktopWidth = isCollapsed ? '80px' : '290px';
+    const isMobile = window.matchMedia('(max-width: 900px)').matches;
+    document.documentElement.style.setProperty('--sidebar-width', isMobile ? '0px' : desktopWidth);
+  }, [isCollapsed]);
+
+  // ensure correct value on mount and when resizing
+  useEffect(() => {
+    const applyWidth = () => {
+      const isMobile = window.matchMedia('(max-width: 900px)').matches;
+      const desktopWidth = isCollapsed ? '80px' : '290px';
+      document.documentElement.style.setProperty('--sidebar-width', isMobile ? '0px' : desktopWidth);
+    };
+    applyWidth();
+    window.addEventListener('resize', applyWidth);
+    return () => window.removeEventListener('resize', applyWidth);
+  }, [isCollapsed]);
 
   const handleLogout = () => {
     localStorage.clear();
