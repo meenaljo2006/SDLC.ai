@@ -61,6 +61,8 @@ const Login = () => {
       // Optional: Save token if API sends one
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('email', formData.email);
+
 
       navigate('/dashboard'); // Redirect to Dashboard
 

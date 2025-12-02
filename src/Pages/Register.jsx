@@ -83,6 +83,8 @@ const Register = () => {
       
       // Optional: If API returns a token, save it here
       localStorage.setItem('token', data.token);
+      localStorage.setItem("email", formData.email);
+
 
       // Navigate to Dashboard (Home) directly
       navigate('/dashboard'); 
