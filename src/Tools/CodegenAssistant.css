@@ -1,0 +1,192 @@
+.codegen-container {
+  display: flex;
+  gap: 2rem;
+  height: calc(100vh - 140px);
+  overflow: hidden;
+  align-items: stretch;
+  margin-left: var(--sidebar-width, 290px);
+  transition: margin-left 0.28s ease; /* smooth when sidebar collapses/expands */
+}
+
+/* --- LEFT PANEL --- */
+.codegen-input-panel {
+  flex: 0 0 350px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.panel-header h2 { margin: 0; font-size: 1.2rem; color: #fff; }
+
+.codegen-form { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.form-group { display: flex; flex-direction: column; }
+.row-group { gap: 1rem; }
+.half { flex: 1; }
+
+.form-label {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.codegen-textarea, .codegen-input {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 10px;
+  color: #fff;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+.codegen-textarea { resize: vertical; }
+.codegen-textarea:focus, .codegen-input:focus { border-color: #22d3ee; }
+
+.codegen-submit-btn {
+  background: #22d3ee;
+  color: black;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 0.5rem;
+  transition: transform 0.2s;
+}
+.codegen-submit-btn:hover { transform: scale(1.02); }
+.codegen-submit-btn:disabled { opacity: 0.7; }
+
+.error-message-text {
+  color: #f43f5e;
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+  padding-left: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.error-dot { font-size: 1.2rem; line-height: 0; }
+
+/* --- OUTPUT PANEL --- */
+.codegen-output-panel {
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+.placeholder-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  text-align: center;
+}
+
+/* Code Card */
+.code-card {
+  background: #0f172a; /* Dark background for code */
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.copy-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #94a3b8;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+.copy-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+
+.code-block {
+  margin: 0;
+  padding: 1.5rem;
+  overflow-x: auto;
+  color: #e2e8f0;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Explanation Card */
+.info-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.info-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
+.info-header h4 { margin: 0; color: #fff; font-size: 1.1rem; }
+.info-card p { margin: 0; color: #cbd5e1; line-height: 1.6; font-size: 0.95rem; }
+
+/* Libraries */
+.libs-section { margin-top: 1rem; }
+.libs-title { color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 6px; }
+.libs-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.lib-tag {
+  background: rgba(99, 102, 241, 0.15); /* Indigo Tint */
+  color: #818cf8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+@media (max-width: 900px) {
+  .codegen-container { flex-direction: column; height: auto; }
+  .codegen-input-panel { flex: none; width: 100%; }
+}
