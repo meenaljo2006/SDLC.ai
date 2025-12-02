@@ -238,7 +238,7 @@ const ArchitectureGenerator = () => {
       <div className="arch-output-panel">
         {!result && !isLoading && (
           <div className="placeholder-state">
-            <Layers size={48} />
+            <Layers size={48} className="text-slate-600 mb-4" />
             <h3>Ready to Design</h3>
             <p>Enter your requirements to generate architecture.</p>
           </div>
