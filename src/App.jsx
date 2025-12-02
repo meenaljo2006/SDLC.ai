@@ -8,11 +8,13 @@ import Register from './Pages/Register';
 import AuthLayout from './Layout/AuthLayout';
 import MainLayout from './Layout/MainLayout';
 import ProtectedRoute from './Components/ProtectedRoute';
-import Dashboard from './Pages/Dashboard';
- 
+import DashboardLayout from './Layout/DashboardLayout';
 
 import './App.css';
 import './index.css';
+import Dashboard from './Pages/Dashboard';
+import Projects from './Pages/Projects';
+import ToolPage from './Pages/ToolPage';
 
 
 const App = () => {
@@ -46,7 +48,16 @@ const App = () => {
         </Route>
 
         <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<DashboardLayout />}>
+                
+                {/* 1. The Main Landing Page */}
+                <Route path="/dashboard" element={<Dashboard />} />
+                
+                {/* 2. The Sibling Pages (Flat URLs) */}
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/tools/:toolId" element={<ToolPage/>} />
+                
+             </Route>
         </Route>
 
       </Routes>
