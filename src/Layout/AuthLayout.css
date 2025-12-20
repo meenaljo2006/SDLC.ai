@@ -159,6 +159,28 @@
   position: relative;
 }
 
+/* Back To Home Button */
+.back-to-home {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+
+.back-to-home:hover {
+  color: #fff;
+}
+
 /* Glass Card */
 .auth-card {
   width: 100%;

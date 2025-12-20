@@ -1,10 +1,11 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet,Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  Cpu, 
+  Cpu, ChevronRight,
   Code2, Bug, Puzzle,           // Inner Orbit (Dev/Test)
   ShieldCheck, Database, Rocket, // Middle Orbit (Sec/Data/Version)
   Server, Clock, Lightbulb,  Network// Outer Orbit (Ops/Plan)
+  
 
 } from 'lucide-react';
 import './AuthLayout.css';
@@ -123,6 +124,11 @@ const AuthLayout = () => {
 
       {/* RIGHT SIDE: OUTLET FOR FORMS */}
       <div className="auth-right">
+        <Link to="/" className="back-to-home">
+          
+          <span>Back to Home</span>
+          <ChevronRight size={18} />
+        </Link>
         <Outlet />
       </div>
     </div>
