@@ -171,7 +171,7 @@
   padding-bottom: 1rem;
 }
 .option-title h4 { margin: 0; color: #fff; font-size: 1.1rem; }
-.badge { background: #334155; color: #94a3b8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+.badge { color: #94a3b8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
 
 .diagram-box {
   background: #0f1012;
