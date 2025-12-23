@@ -26,15 +26,19 @@ const SeverityBadge = ({ level }) => {
   );
 };
 
+const getScoreColor = (score) => {
+  if (score > 80) return "#4ade80"; // Green
+  if (score > 50) return "#eab308"; // Yellow
+  return "#ef4444";               // Red
+};
+
 // --- Helper: Score Gauge ---
 const ScoreGauge = ({ score }) => {
-  let color = "#ef4444"; // Red
-  if (score > 50) color = "#eab308"; // Yellow
-  if (score > 80) color = "#4ade80"; // Green
+  const color = getScoreColor(score);
 
   return (
     <div className="audit-score-box" style={{ borderColor: color }}>
-      <span className="score-val" style={{ color }}>{score}</span>
+      <span className="score-val" style={{ color }}>{score}/100</span>
       <span className="score-lbl">Quality Score</span>
     </div>
   );
@@ -69,15 +73,15 @@ const ComplianceAuditor = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
 
-      const response = await fetch("/api/v1/compliance/", {
+      const API_URL = "https://sdlc.testproject.live/api/v1/compliance/";
+
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
@@ -139,7 +143,7 @@ const ComplianceAuditor = () => {
               <label className="form-label">Language</label>
               <input 
                 className="compliance-input" 
-                placeholder="e.g. Python"
+                placeholder="Enter Code Programming Language"
                 value={language}
                 onChange={e => setLanguage(e.target.value)}
               />
@@ -189,7 +193,7 @@ const ComplianceAuditor = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
             {/* 1. SCORECARD Header */}
-            <div className="audit-header">
+            <div className="audit-header" style={{ borderColor: getScoreColor(result.overall_score) }}>
               <div className="audit-summary">
                 <h4>Audit Report</h4>
                 <p>{result.summary}</p>

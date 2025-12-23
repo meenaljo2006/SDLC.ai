@@ -55,15 +55,15 @@ const SmartDebugger = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
 
-      const response = await fetch("/api/v1/debug/", {
+      const API_URL = "https://sdlc.testproject.live/api/v1/debug/";
+
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });

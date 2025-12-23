@@ -91,15 +91,15 @@ const DesignReviewer = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
 
-      const response = await fetch("/api/v1/review/", {
+      const API_URL = "https://sdlc.testproject.live/api/v1/review/";
+
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
@@ -158,14 +158,14 @@ const DesignReviewer = () => {
             label="Quality Goals (Priorities)" 
             tags={qualityGoals} 
             setTags={setQualityGoals} 
-            placeholder="Reliability, Performance..." 
+            placeholder="Type & Press Enter to add" 
           />
 
           <TagInput 
             label="Checklists (Focus Areas)" 
             tags={checklists} 
             setTags={setChecklists} 
-            placeholder="Security, Observability..." 
+            placeholder="Type & Press Enter to add"  
           />
 
           {error && <div className="error-message-text">{error}</div>}
@@ -203,17 +203,17 @@ const DesignReviewer = () => {
             
             {/* 1. EXECUTIVE SUMMARY */}
             <div className="summary-card">
-              <div className="summary-icon">
-                <FileText size={24} />
-              </div>
-              <div>
+              <div className="summary-reviewheader">
+                <FileText size={22} className="summary-icon" />
                 <h4>Executive Summary</h4>
-                <p>{result.summary}</p>
               </div>
+
+              <p>{result.summary}</p>
             </div>
 
+
             {/* 2. IDENTIFIED RISKS */}
-            <h4 className="section-title">Identified Risks</h4>
+            <h4 className="section-reviewtitle">Identified Risks</h4>
             <div className="risks-grid">
               {result.risks.map((risk, idx) => (
                 <div key={idx} className="risk-card">
@@ -237,11 +237,11 @@ const DesignReviewer = () => {
             </div>
 
             {/* 3. ACTION ITEMS */}
-            <h4 className="section-title" style={{ marginTop: '2rem' }}>Recommended Actions</h4>
+            <h4 className="section-reviewtitle" style={{ marginTop: '2rem' }}>Recommended Actions</h4>
             <div className="actions-list">
               {result.action_items.map((item, idx) => (
                 <div key={idx} className="action-item">
-                  <CheckSquare className="text-green-400 flex-shrink-0" size={18} />
+                  <CheckSquare size={18} />
                   <span>{item}</span>
                 </div>
               ))}

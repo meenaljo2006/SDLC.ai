@@ -63,13 +63,34 @@ const MermaidChart = ({ chartCode }) => {
           // FIX: Import specific ESM build to avoid Node.js 'tty'/'util' errors
           const mermaid = (await import('mermaid/dist/mermaid.esm.min.mjs')).default;
 
-          mermaid.initialize({ 
-            startOnLoad: false, 
-            theme: 'dark',
-            securityLevel: 'loose',
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: "dark",
+            securityLevel: "loose",
+
+            themeVariables: {
+              /* 🔤 FONT */
+              fontFamily: "Inter, Poppins, sans-serif",
+              fontSize: "18px",
+
+              /* 📦 BOX SIZE (MOST IMPORTANT) */
+              padding: 30,
+
+              /* 🎨 COLORS (optional but nice) */
+              primaryColor: "#020617",
+              primaryTextColor: "#e5e7eb",
+              primaryBorderColor: "white",
+
+              nodeBorder: "white",
+            },
           });
 
-          const { svg } = await mermaid.render(`mermaid-${Date.now()}`, chartCode);
+          const enhancedChartCode = `
+          %%{init: {'flowchart': {'nodeSpacing': 90, 'rankSpacing': 100}}}%%
+          ${chartCode}
+          `;
+
+          const { svg } = await mermaid.render(`mermaid-${Date.now()}`,enhancedChartCode);
           ref.current.innerHTML = svg;
 
         } catch (err) {
@@ -123,17 +144,14 @@ const ArchitectureGenerator = () => {
     setIsLoading(true);
 
     try {
-      // Token Cleaning
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
+      const API_URL = "https://sdlc.testproject.live/api/v1/design/";
 
       // API Call
-      const response = await fetch("/api/v1/design/", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
@@ -258,10 +276,6 @@ const ArchitectureGenerator = () => {
             animate={{ opacity: 1 }} 
             className="results-content"
           >
-            <div className="result-header">
-              <h3>AI Recommendation</h3>
-              <p>{result.recommendation}</p>
-            </div>
 
             <div className="options-grid">
               {result.options.map((option, idx) => (
@@ -269,7 +283,7 @@ const ArchitectureGenerator = () => {
                   <div className="option-title">
                     <h4>Option {idx + 1}: {option.name}</h4>
                     <span className="badge">
-                      Best for: {option.when_to_use ? option.when_to_use.substring(0, 30) + "..." : "General"}
+                      Best for: {option.when_to_use }
                     </span>
                   </div>
 
@@ -300,6 +314,12 @@ const ArchitectureGenerator = () => {
                 </div>
               ))}
             </div>
+
+            <div className="result-header">
+              <h3>AI Recommendation</h3>
+              <p>{result.recommendation}</p>
+            </div>
+
           </motion.div>
         )}
       </div>

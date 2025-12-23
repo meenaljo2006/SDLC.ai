@@ -55,8 +55,8 @@ const ScoreGauge = ({ score }) => {
 
   return (
     <div className="score-gauge" style={{ borderColor: getColor(score) }}>
-      <span className="score-value" style={{ color: getColor(score) }}>{score}</span>
-      <span className="score-label">/ 5</span>
+      <span className="score-value" style={{ color: getColor(score) }}>{score}/10</span>
+      <span className="score-label"></span>
     </div>
   );
 };
@@ -91,18 +91,18 @@ const TechStackSelector = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
+      const API_URL = "https://sdlc.testproject.live/api/v1/techstack/";
 
-      const response = await fetch("/api/v1/techstack/", {
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
+
 
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("text/html")) {
@@ -144,7 +144,7 @@ const TechStackSelector = () => {
 
         <div className="techstack-form">
           <div className="form-group">
-            <label className="form-label">Current Architecture</label>
+            <label className="form-label">Architecture</label>
             <textarea 
               className="techstack-textarea" 
               rows="5"
@@ -168,7 +168,7 @@ const TechStackSelector = () => {
             label="Quality Goals" 
             tags={qualityGoals} 
             setTags={setQualityGoals} 
-            placeholder="Reliability, Performance..." 
+            placeholder="Type & Press Enter to add" 
           />
 
           {error && <div className="error-message-text">{error}</div>}
@@ -206,7 +206,7 @@ const TechStackSelector = () => {
             
             {/* 1. SUMMARY SECTION */}
             <div className="summary-header">
-              <Info size={20} className="text-blue-400" />
+              <Info size={40} />
               <p>{result.summary}</p>
             </div>
 
@@ -238,7 +238,7 @@ const TechStackSelector = () => {
             ))}
 
             {/* 3. TECH RECOMMENDATIONS (The Grid) */}
-            <h4 className="section-title">Recommended Technology Stack</h4>
+            <h4 className="section-techtitle">Recommended Technology Stack</h4>
             <div className="recommendations-grid">
               {result.tech_recommendations.map((tech, idx) => (
                 <div key={idx} className="tech-card">

@@ -126,6 +126,7 @@
   padding: 2rem;
   overflow-y: auto;
   position: relative;
+   scrollbar-width: thin;
 }
 
 .placeholder-state {
@@ -153,6 +154,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .option-card {
@@ -163,15 +165,14 @@
 }
 
 .option-title {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   padding-bottom: 1rem;
 }
-.option-title h4 { margin: 0; color: #fff; font-size: 1.1rem; }
-.badge { color: #94a3b8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+.option-title h4 { margin-bottom: 0.5rem; color: #fff; font-size: 1.1rem; }
+.badge { color: #94a3b8;  border-radius: 4px; font-size: 0.8rem; }
 
 .diagram-box {
   background: #0f1012;
@@ -182,6 +183,19 @@
   justify-content: center;
   overflow-x: auto;
 }
+
+.mermaid-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 16px 0;
+}
+
+.mermaid-wrapper svg {
+  width: 100% !important;
+  height: auto !important;
+  transform-origin: top left;
+}
+
 
 .error-diagram { color: #f43f5e; font-size: 0.8rem; text-align: center; }
 
@@ -206,6 +220,20 @@
   border-radius: 6px;
   font-size: 0.85rem;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
 
 /* Responsive */
 @media (max-width: 900px) {

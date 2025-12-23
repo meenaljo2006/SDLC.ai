@@ -5,7 +5,7 @@
   overflow: hidden;
   align-items: stretch;
   margin-left: var(--sidebar-width, 290px);
-  transition: margin-left 0.28s ease; /* smooth when sidebar collapses/expands */
+  transition: margin-left 0.28s ease; /* smoot h when sidebar collapses/expands */
 }
 
 /* --- LEFT PANEL --- */
@@ -97,6 +97,7 @@
   padding: 2rem;
   overflow-y: auto;
   position: relative;
+  scrollbar-width: thin;
 }
 
 .placeholder-state {

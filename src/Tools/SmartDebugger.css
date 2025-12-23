@@ -117,6 +117,7 @@
   padding: 2rem;
   overflow-y: auto;
   position: relative;
+  scrollbar-width: thin;
 }
 
 .placeholder-state {

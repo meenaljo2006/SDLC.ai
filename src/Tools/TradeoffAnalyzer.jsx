@@ -88,15 +88,14 @@ const TradeOffAnalyzer = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
+      const API_URL = "https://sdlc.testproject.live/api/v1/tradeoff/";
 
-      const response = await fetch("/api/v1/tradeoff/", {
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
@@ -177,14 +176,14 @@ const TradeOffAnalyzer = () => {
             label="Criteria (What matters?)" 
             tags={criteria} 
             setTags={setCriteria} 
-            placeholder="Scalability, Cost, Speed..." 
+            placeholder="Type & Press Enter to add" 
           />
 
           <TagInput 
             label="Constraints (Limitations)" 
             tags={constraints} 
             setTags={setConstraints} 
-            placeholder="Budget, Deadline..." 
+            placeholder="Type & Press Enter to add" 
           />
 
           {error && <div className="error-message">{error}</div>}
@@ -224,12 +223,13 @@ const TradeOffAnalyzer = () => {
             <div className="recommendation-card">
               <div className="rec-header">
                 <CheckCircle2 className="text-green-400" size={24} />
-                <div>
-                  <span className="rec-label">Recommended Choice</span>
-                  <h3>{result.recommendation.choice}</h3>
+                <span className="rec-label">Recommended Choice</span>
+                
+                <div className="rec-content">
+                  <h3 className="rec-title">{result.recommendation.decision}</h3>
+                  <p className="rec-text">{result.recommendation.justification}</p>
                 </div>
               </div>
-              <p className="rec-text">{result.recommendation.justification}</p>
             </div>
 
             {/* Comparison Matrix */}
@@ -251,12 +251,6 @@ const TradeOffAnalyzer = () => {
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Summary Footer */}
-            <div className="summary-box">
-              <Info size={18} className="text-blue-400" />
-              <p>{result.summary}</p>
             </div>
 
           </motion.div>

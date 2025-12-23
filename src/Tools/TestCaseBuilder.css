@@ -101,6 +101,7 @@
   padding: 2rem;
   overflow-y: auto;
   position: relative;
+  scrollbar-width: thin;
 }
 
 .placeholder-state {
@@ -113,21 +114,12 @@
   text-align: center;
 }
 
-/* Summary Box */
-.summary-header {
-  background: rgba(45, 212, 191, 0.1);
-  border-left: 4px solid #2dd4bf;
-  padding: 1rem;
-  border-radius: 8px;
-  display: flex;
-  gap: 12px;
-  margin-bottom: 2rem;
-  align-items: flex-start;
-}
-.summary-header p { margin: 0; color: #e2e8f0; line-height: 1.5; font-size: 0.95rem; }
-
 /* Test Case Card */
-.cases-list { display: flex; flex-direction: column; gap: 1.5rem; }
+.cases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
 .test-card {
   background: rgba(255,255,255,0.02);
@@ -136,28 +128,61 @@
   padding: 1.2rem;
   transition: border-color 0.2s;
 }
-.test-card:hover { border-color: rgba(255,255,255,0.1); }
+.test-card:hover {
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* ===============================
+   HEADER LAYOUT (FIXED)
+   =============================== */
 
 .test-header {
-  display: flex;
+  display: flex;                    /* 👈 KEY */
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-start;          /* title & badge align properly */
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   padding-bottom: 0.8rem;
 }
 
-.test-title-group { display: flex; align-items: center; gap: 12px; }
-.case-id { font-family: monospace; color: #64748b; background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
-.test-header h4 { margin: 0; color: #fff; font-size: 1.1rem; }
+/* LEFT SIDE (ID + TITLE stacked) */
+.test-title-group {
+  display: flex;
+  flex-direction: column;           /* 👈 ID on top, title below */
+  gap: 4px;
+}
 
+/* ID */
+.case-id {
+  font-family: monospace;
+  color: #64748b;
+  background: #1e293b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  width: fit-content;
+}
+
+/* TITLE */
+.test-title-group h4 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+/* RIGHT SIDE (TYPE BADGE) */
 .type-badge {
   padding: 4px 10px;
   border-radius: 20px;
+  border: 1px solid grey;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
+  white-space: nowrap;
+  align-self: center;               /* 👈 aligns with title line */
 }
+
 
 /* BDD Grid */
 .bdd-grid { display: flex; flex-direction: column; gap: 0.8rem; }

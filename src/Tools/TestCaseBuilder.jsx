@@ -85,15 +85,15 @@ const TestCaseBuilder = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
 
-      const response = await fetch("/api/v1/testcases/", {
+      const API_URL = "https://sdlc.testproject.live/api/v1/testcases/";
+
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
@@ -163,14 +163,14 @@ const TestCaseBuilder = () => {
             label="Non-Functional Reqs" 
             tags={nonFunctionals} 
             setTags={setNonFunctionals} 
-            placeholder="Security, Speed..." 
+            placeholder="Type & Press Enter to add" 
           />
 
           <TagInput 
             label="Constraints" 
             tags={constraints} 
             setTags={setConstraints} 
-            placeholder="Max withdrawal $500..." 
+            placeholder="Type & Press Enter to add" 
           />
 
           {error && <div className="error-message-text">{error}</div>}
@@ -205,11 +205,6 @@ const TestCaseBuilder = () => {
 
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
-            
-            <div className="summary-header">
-              <FileText size={20} className="text-teal-400" />
-              <p>{result.summary}</p>
-            </div>
 
             <div className="cases-list">
               {result.cases.map((testCase, idx) => (

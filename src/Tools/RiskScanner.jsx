@@ -46,7 +46,7 @@ const TagInput = ({ label, tags, setTags, placeholder }) => {
 };
 
 // --- Helper: Risk Score Badge ---
-const RiskScoreBadge = ({ score }) => {
+const RiskScoreBadge = ({ score}) => {
   let color = "#3b82f6"; // Low (Blue)
   let label = "Low";
 
@@ -56,7 +56,7 @@ const RiskScoreBadge = ({ score }) => {
 
   return (
     <div className="risk-score-badge" style={{ borderColor: color, color: color }}>
-      <span className="score-num">{score}</span>
+      <span className="score-num">{score}/12</span>
       <span className="score-cat">{label}</span>
     </div>
   );
@@ -90,15 +90,15 @@ const RiskScanner = () => {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      if (!token) throw new Error("Please log in again.");
-      token = token.replace(/^"|"$/g, "");
 
-      const response = await fetch("/api/v1/risk/", {
+      const API_URL = "https://sdlc.testproject.live/api/v1/risk/";
+
+      // API Call
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "x-api-key":"supersecret123",
         },
         body: JSON.stringify(payload),
       });
@@ -207,7 +207,7 @@ const RiskScanner = () => {
             
             {/* 1. SUMMARY CARD */}
             <div className="summary-card">
-              <div className="summary-header">
+              <div className="summary-riskheader">
                 <Activity size={20} className="text-orange-400" />
                 <h4>Assessment Summary</h4>
               </div>
@@ -215,7 +215,7 @@ const RiskScanner = () => {
             </div>
 
             {/* 2. RISK LIST */}
-            <h4 className="section-title">Identified Risks ({result.risks.length})</h4>
+            <h4 className="section-risktitle">Identified Risks ({result.risks.length})</h4>
             <div className="risks-list">
               {result.risks.map((risk, idx) => (
                 <div key={idx} className="risk-item-card">
@@ -229,12 +229,11 @@ const RiskScanner = () => {
                   
                   <div className="risk-details">
                     <div className="mitigation-box">
-                      <span className="mit-label"><CheckShield size={14}/> Mitigation:</span>
+                      <span className="mit-label"><ShieldCheck size={14}/> Mitigation:</span>
                       <p>{risk.mitigation}</p>
                     </div>
                     <div className="meta-row">
-                      <span>Owner: {risk.owner || "Unassigned"}</span>
-                      {risk.due_by && <span>Due: {risk.due_by}</span>}
+                      <span>Action Required By : {risk.owner || "Unassigned"}</span>
                     </div>
                   </div>
                 </div>

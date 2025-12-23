@@ -104,6 +104,7 @@
   padding: 2rem;
   overflow-y: auto;
   position: relative;
+  scrollbar-width: thin;
 }
 
 .placeholder-state {
@@ -122,22 +123,42 @@
   border: 1px solid rgba(251, 191, 36, 0.2);
   border-radius: 12px;
   padding: 1.5rem;
-  display: flex;
-  gap: 1.5rem;
   margin-bottom: 2.5rem;
 }
-.summary-icon {
-  background: rgba(251, 191, 36, 0.1);
-  padding: 12px;
-  border-radius: 10px;
-  color: #fbbf24;
-  height: fit-content;
+
+/* 🔑 ICON + TITLE IN ONE LINE */
+.summary-reviewheader {
+  display: flex;
+  align-items: center;     
+  gap: 10px;             
+  margin-bottom: 0.6rem;
 }
-.summary-card h4 { margin: 0 0 0.5rem 0; color: #fbbf24; font-size: 1.1rem; }
-.summary-card p { margin: 0; color: #e2e8f0; line-height: 1.6; font-size: 0.95rem; }
+
+/* Icon */
+.summary-icon {
+  color: #fbbf24;         
+  flex-shrink: 0;
+}
+
+/* Title */
+.summary-reviewheader h4 {
+  margin: 0;
+  color: #fbbf24;       
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Paragraph */
+.summary-card p {
+  margin: 0;
+  color: #e2e8f0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
 
 /* Risks Grid */
-.section-title { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+.section-reviewtitle { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; padding-bottom: 0.5rem; }
 
 .risks-grid {
   display: flex;
@@ -188,6 +209,7 @@
   gap: 0.8rem;
 }
 .action-item {
+  align-items: flex-start;
   display: flex;
   gap: 12px;
   background: rgba(255,255,255,0.02);
@@ -195,6 +217,13 @@
   border-radius: 8px;
   border-left: 3px solid #4ade80;
 }
+.action-item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;    
+  margin-top: 2px;   
+}
+
 .action-item span { color: #e2e8f0; font-size: 0.95rem; line-height: 1.5; }
 .text-green-400 { color: #4ade80; }
 
