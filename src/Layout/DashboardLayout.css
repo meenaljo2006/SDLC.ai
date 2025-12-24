@@ -16,7 +16,6 @@
 
 .dashboard-content {
   flex: 1;
-  margin-left: 20px; /* Offset for Sidebar */
   padding: 2rem 3rem;
   transition: margin-left 0.3s ease;
 }
@@ -79,7 +78,6 @@
     padding: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
     border: 1px solid rgba(255,255,255,0.08);
     transition: transform 0.2s, border-color 0.2s;
 }

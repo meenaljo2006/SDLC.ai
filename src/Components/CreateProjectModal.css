@@ -1,0 +1,155 @@
+/* ===== Modal Backdrop ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  backdrop-filter: blur(6px);
+  z-index: 999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Modal Box ===== */
+.modal-box {
+  position: relative;
+  width: 420px;
+  max-width: 92%;
+  background: #001213;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem 1.7rem;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+
+  animation: modalPop 0.25s ease-out;
+}
+
+/* ===== Modal Header ===== */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+/* ===== Close Button (SEPARATE STYLE) ===== */
+.modal-close-btn {
+  background: rgba(255,255,255,0.06);
+  border: none;
+  color: #94a3b8;
+
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ===== Inputs ===== */
+.modal-box input,
+.modal-box textarea {
+  width: 90%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 0.9rem;
+  margin-left: 0.5rem;
+
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.modal-box textarea {
+  resize: none;
+  height: 90px;
+}
+
+.modal-box input::placeholder,
+.modal-box textarea::placeholder {
+  color: #64748b;
+}
+
+.modal-box input:focus,
+.modal-box textarea:focus {
+  border-color: #22d3ee;
+}
+
+/* ===== Primary Action Button ===== */
+.modal-action-btn {
+  width: 95%;
+  height: 44px;
+  margin-left: 0.5rem;
+
+  background: #22d3ee;
+  color: #020617;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.modal-action-btn:hover {
+  transform: scale(1.02);
+}
+
+.modal-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== Success State ===== */
+.modal-success {
+  color: #22c55e;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 0.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ===== Animation ===== */
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
