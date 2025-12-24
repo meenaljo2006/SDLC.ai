@@ -98,6 +98,7 @@
   overflow-y: auto;
   position: relative;
   scrollbar-width: thin;
+  min-width: 0;
 }
 
 .placeholder-state {
@@ -160,6 +161,8 @@
   font-family: 'Fira Code', monospace;
   font-size: 0.9rem;
   line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* Explanation Card */
