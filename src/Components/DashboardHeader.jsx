@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link} from 'react-router-dom';
 import { Code2, ChevronDown, Box, Layout } from 'lucide-react';
 import { useProject } from '../Context/ProjectContext';
 import './DashboardHeader.css';
@@ -21,12 +22,14 @@ const DashboardHeader = () => {
   return (
     <header className="dash-top-header">
       <div className="header-left">
+        <Link to="/dashboard" className='logo'>
         <div className="logo-box">
           <Code2 size={20} color="#fff" />
         </div>
         <span className="logo-text">
           SDLC<span style={{ color: '#22d3ee' }}>.ai</span>
         </span>
+        </Link>
 
         {/* PROJECT SELECTOR */}
         <div className="project-selector-container">
