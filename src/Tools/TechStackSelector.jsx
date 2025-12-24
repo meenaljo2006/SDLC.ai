@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   Layers, ArrowRight, Loader2, AlertTriangle, 
   CheckCircle2, XCircle, Zap, Database, Server, 
   Globe, Shield, Info, Gauge
 } from 'lucide-react';
 import './TechStackSelector.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Tag Input ---
 const TagInput = ({ label, tags, setTags, placeholder }) => {
@@ -46,7 +47,6 @@ const TagInput = ({ label, tags, setTags, placeholder }) => {
 
 // --- Helper: Score Gauge ---
 const ScoreGauge = ({ score }) => {
-  // Score is usually 1-5 or 1-10. Let's assume 1-10 for color mapping.
   const getColor = (s) => {
     if (s >= 8) return "#4ade80"; // Green
     if (s >= 5) return "#fbbf24"; // Yellow
@@ -67,15 +67,18 @@ const TechStackSelector = () => {
   const [architecture, setArchitecture] = useState("");
   const [domain, setDomain] = useState("");
   const [qualityGoals, setQualityGoals] = useState([]);
+  const { selectedProject, logActivity } = useProject();
 
   // State
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!architecture.trim()) return setError("Current architecture description is required.");
@@ -103,7 +106,6 @@ const TechStackSelector = () => {
         body: JSON.stringify(payload),
       });
 
-
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("text/html")) {
         throw new Error("Server Error (500). Backend crashed.");
@@ -114,7 +116,14 @@ const TechStackSelector = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        logActivity('stack-selector', 'Stack Selector', architecture, data);
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Tech Stack Selector",
@@ -204,6 +213,21 @@ const TechStackSelector = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 1. SUMMARY SECTION */}
             <div className="summary-header">
               <Info size={40} />

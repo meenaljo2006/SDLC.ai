@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Lightbulb, ArrowRight, Loader2, Check, X, 
-  Layers, Cpu
+  Layers, Cpu, CheckCircle2
 } from 'lucide-react';
 import './ArchitectureGenerator.css';
+import { useProject } from '../Context/ProjectContext';
 
 // ----------------------------------------------------
 // TAG INPUT COMPONENT
@@ -51,7 +52,7 @@ const TagInput = ({ label, tags, setTags, placeholder }) => {
 };
 
 // ----------------------------------------------------
-// MERMAID COMPONENT (FIXED IMPORT)
+// MERMAID COMPONENT (ROBUST FIX)
 // ----------------------------------------------------
 const MermaidChart = ({ chartCode }) => {
   const ref = useRef(null);
@@ -60,43 +61,63 @@ const MermaidChart = ({ chartCode }) => {
     const renderChart = async () => {
       if (chartCode && ref.current) {
         try {
-          // FIX: Import specific ESM build to avoid Node.js 'tty'/'util' errors
           const mermaid = (await import('mermaid/dist/mermaid.esm.min.mjs')).default;
 
           mermaid.initialize({
             startOnLoad: false,
             theme: "dark",
             securityLevel: "loose",
-
             themeVariables: {
-              /* 🔤 FONT */
               fontFamily: "Inter, Poppins, sans-serif",
-              fontSize: "18px",
-
-              /* 📦 BOX SIZE (MOST IMPORTANT) */
-              padding: 30,
-
-              /* 🎨 COLORS (optional but nice) */
+              fontSize: "16px",
               primaryColor: "#020617",
               primaryTextColor: "#e5e7eb",
               primaryBorderColor: "white",
-
+              lineColor: "#94a3b8",
+              secondaryColor: "#1e293b",
+              tertiaryColor: "#0f172a",
               nodeBorder: "white",
             },
           });
 
+          // --- 1. CLEANUP LOGIC ---
+          let cleanCode = chartCode;
+
+          // A. Ensure it starts with "graph TD" or "flowchart TD" if missing
+          if (!cleanCode.trim().startsWith("graph") && !cleanCode.trim().startsWith("flowchart")) {
+            cleanCode = `graph TD\n${cleanCode}`;
+          }
+
+          // B. Auto-Quote labels inside [] if they contain special chars like ()
+          // This Regex looks for content inside [] that isn't already quoted and adds quotes
+          // Example: R[React (S3)] -> R["React (S3)"]
+          cleanCode = cleanCode.replace(/\[([^"\]]+)\]/g, '["$1"]');
+
+          // C. Fix standard styling vars
           const enhancedChartCode = `
-          %%{init: {'flowchart': {'nodeSpacing': 90, 'rankSpacing': 100}}}%%
-          ${chartCode}
+          %%{init: {'flowchart': {'nodeSpacing': 50, 'rankSpacing': 50}}}%%
+          ${cleanCode}
           `;
 
-          const { svg } = await mermaid.render(`mermaid-${Date.now()}`,enhancedChartCode);
+          // --- 2. RENDER ---
+          // Clear previous SVG to prevent duplicates
+          ref.current.innerHTML = ''; 
+          
+          // Generate unique ID to prevent collisions
+          const uniqueId = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          
+          const { svg } = await mermaid.render(uniqueId, enhancedChartCode);
           ref.current.innerHTML = svg;
 
         } catch (err) {
-          console.error("Mermaid error:", err);
-          // If error occurs, show raw code so user isn't left blank
-          ref.current.innerHTML = `<div class="error-diagram">Failed to render diagram. <br/>Raw: ${chartCode}</div>`;
+          console.error("Mermaid Render Error:", err);
+          // Fallback: Show the text if graph fails so UI doesn't break
+          ref.current.innerHTML = `
+            <div style="color:#ef4444; border:1px solid #ef4444; padding:10px; border-radius:6px; background:rgba(239,68,68,0.1); font-size:0.8rem;">
+              <strong>Diagram Error:</strong> ${err.message?.split('\n')[0]}
+              <br/><br/>
+              <pre style="white-space:pre-wrap; color:#cbd5e1;">${chartCode}</pre>
+            </div>`;
         }
       }
     };
@@ -104,13 +125,15 @@ const MermaidChart = ({ chartCode }) => {
     renderChart();
   }, [chartCode]);
 
-  return <div className="mermaid-wrapper" ref={ref} />;
+  return <div className="mermaid-wrapper" ref={ref} style={{ overflowX: 'auto', textAlign: 'center', padding: '10px' }} />;
 };
 
 // ----------------------------------------------------
 // MAIN COMPONENT
 // ----------------------------------------------------
 const ArchitectureGenerator = () => {
+  const { selectedProject, logActivity } = useProject(); 
+
   const [problem, setProblem] = useState("");
   const [qualityGoals, setQualityGoals] = useState([]);
   const [constraints, setConstraints] = useState([]);
@@ -119,15 +142,16 @@ const ArchitectureGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false);
 
   // ----------------------------------------------------
-  // SUBMIT HANDLER (REAL API)
+  // SUBMIT HANDLER
   // ----------------------------------------------------
   const handleSubmit = async () => {
     setResult(null);
     setError("");
+    setIsSaved(false); // Reset saved state
 
-    // Clean payload
     const payload = {
       problem: problem.trim(),
       quality_goals: qualityGoals.filter(x => x.trim() !== ""),
@@ -135,7 +159,6 @@ const ArchitectureGenerator = () => {
       preferred_stack: techStack.filter(x => x.trim() !== ""),
     };
 
-    // Validation
     if (!payload.problem) return setError("Problem statement is required.");
     if (payload.quality_goals.length === 0) return setError("At least one Quality Goal is required.");
     if (payload.constraints.length === 0) return setError("At least one Constraint is required.");
@@ -146,7 +169,6 @@ const ArchitectureGenerator = () => {
     try {
       const API_URL = "https://sdlc.testproject.live/api/v1/design/";
 
-      // API Call
       const response = await fetch(API_URL, {
         method: "POST",
         headers: {
@@ -156,7 +178,6 @@ const ArchitectureGenerator = () => {
         body: JSON.stringify(payload),
       });
 
-      // Handle HTML Errors (500s)
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("text/html")) {
         const html = await response.text();
@@ -172,7 +193,19 @@ const ArchitectureGenerator = () => {
 
       setResult(data);
 
-      // Save History
+      // Save if project is selected
+      if (selectedProject) {
+        logActivity(
+          "arch-gen",
+          "Architecture Generator",
+          problem,
+          data
+        );
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 4000);
+      }
+
+      // Legacy History (Optional)
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Architecture Gen",
@@ -277,6 +310,26 @@ const ArchitectureGenerator = () => {
             className="results-content"
           >
 
+            {/* AUTO SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="result-header">
+              <h3>AI Recommendation</h3>
+              <p>{result.recommendation}</p>
+            </div>
+
             <div className="options-grid">
               {result.options.map((option, idx) => (
                 <div key={idx} className="option-card">
@@ -313,11 +366,6 @@ const ArchitectureGenerator = () => {
 
                 </div>
               ))}
-            </div>
-
-            <div className="result-header">
-              <h3>AI Recommendation</h3>
-              <p>{result.recommendation}</p>
             </div>
 
           </motion.div>

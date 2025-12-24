@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   Scale, ArrowRight, Loader2, CheckCircle2, 
   AlertTriangle, Sword, Trophy, Info
 } from 'lucide-react';
 import './TradeOffAnalyzer.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Tag Input ---
 const TagInput = ({ label, tags, setTags, placeholder }) => {
@@ -62,15 +63,18 @@ const TradeOffAnalyzer = () => {
   const [context, setContext] = useState("");
   const [criteria, setCriteria] = useState([]);
   const [constraints, setConstraints] = useState([]);
+  const { selectedProject, logActivity } = useProject();
 
   // State
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!optionA || !optionB) return setError("Both Option A and Option B are required.");
@@ -110,7 +114,16 @@ const TradeOffAnalyzer = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        const inputLog = `Option A: ${optionA}\nOption B: ${optionB}\nContext: ${context}`;
+        logActivity('trade-off', 'Trade-off Analyzer', inputLog, data);
+        
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Trade-off Analyzer",
@@ -219,6 +232,21 @@ const TradeOffAnalyzer = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Recommendation Box */}
             <div className="recommendation-card">
               <div className="rec-header">

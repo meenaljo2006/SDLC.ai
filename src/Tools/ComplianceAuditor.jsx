@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   FileBadge, ArrowRight, Loader2, AlertOctagon, 
-  ShieldAlert, AlertTriangle, Info, CheckCircle2, 
+  ShieldAlert, AlertTriangle, Info, CheckCircle2, // <--- Import CheckCircle2
   FileCode, Terminal
 } from 'lucide-react';
 import './ComplianceAuditor.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Severity Badge ---
 const SeverityBadge = ({ level }) => {
@@ -46,6 +47,8 @@ const ScoreGauge = ({ score }) => {
 
 // --- MAIN COMPONENT ---
 const ComplianceAuditor = () => {
+  const { selectedProject, logActivity } = useProject();
+
   // Inputs
   const [codeSnippet, setCodeSnippet] = useState("");
   const [language, setLanguage] = useState("");
@@ -55,10 +58,12 @@ const ComplianceAuditor = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!codeSnippet.trim()) return setError("Please paste a code snippet to audit.");
@@ -73,7 +78,6 @@ const ComplianceAuditor = () => {
     };
 
     try {
-
       const API_URL = "https://sdlc.testproject.live/api/v1/compliance/";
 
       // API Call
@@ -96,7 +100,15 @@ const ComplianceAuditor = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        logActivity('compliance', 'Compliance Auditor', codeSnippet, data);
+        
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Compliance Auditor",
@@ -192,6 +204,21 @@ const ComplianceAuditor = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 1. SCORECARD Header */}
             <div className="audit-header" style={{ borderColor: getScoreColor(result.overall_score) }}>
               <div className="audit-summary">

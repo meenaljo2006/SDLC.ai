@@ -128,7 +128,6 @@
 .activity-item {
   display: flex; gap: 12px; padding: 12px 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  align-items: center;
 }
 .activity-item:last-child { border-bottom: none; }
 .activity-icon {

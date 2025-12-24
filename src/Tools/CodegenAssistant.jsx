@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   Code, ArrowRight, Loader2, Copy, Check, 
-  Terminal, FileCode, BookOpen, Layers
+  Terminal, FileCode, BookOpen, Layers, CheckCircle2 // <--- Import CheckCircle2
 } from 'lucide-react';
 import './CodegenAssistant.css';
+import { useProject } from '../Context/ProjectContext';
 
-// --- Helper: Copy Button ---
+// ... (CopyButton Helper remains same) ...
 const CopyButton = ({ text }) => {
   const [copied, setCopied] = useState(false);
-
+  
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -24,8 +25,9 @@ const CopyButton = ({ text }) => {
   );
 };
 
-// --- MAIN COMPONENT ---
 const CodegenAssistant = () => {
+  const { selectedProject, logActivity } = useProject(); 
+
   // Inputs
   const [prompt, setPrompt] = useState("");
   const [language, setLanguage] = useState("");
@@ -35,10 +37,12 @@ const CodegenAssistant = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!prompt.trim()) return setError("Prompt is required.");
@@ -53,10 +57,8 @@ const CodegenAssistant = () => {
     };
 
     try {
-
       const API_URL = "https://sdlc.testproject.live/api/v1/codegen/";
 
-      // API Call
       const response = await fetch(API_URL, {
         method: "POST",
         headers: {
@@ -76,12 +78,20 @@ const CodegenAssistant = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        logActivity('codegen', 'Boilerplate Assistant', prompt, data);
+        
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Codegen Assistant",
         date: new Date().toLocaleDateString(),
-        score: 100, // Dummy score for success
+        score: 100, 
         timestamp: Date.now()
       });
       localStorage.setItem("analysis_history", JSON.stringify(history));
@@ -170,6 +180,21 @@ const CodegenAssistant = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner" // Ensure CSS exists for this class
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 1. CODE BLOCK */}
             <div className="code-card">
               <div className="code-header">

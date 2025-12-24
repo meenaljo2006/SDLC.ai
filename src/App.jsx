@@ -15,6 +15,7 @@ import './index.css';
 import Dashboard from './Pages/Dashboard';
 import Projects from './Pages/Projects';
 import ToolPage from './Pages/ToolPage';
+import ProjectDetails from './Pages/ProjectDetails';
 
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
         </Route>
 
         <Route element={<ProtectedRoute />}>
+            <Route path="/projects/:id" element={<ProjectDetails />} />
             <Route element={<DashboardLayout />}>
                 
                 {/* 1. The Main Landing Page */}

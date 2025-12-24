@@ -11,7 +11,11 @@ import {
   ShieldAlert,
   Layers,
   Lightbulb,
-  Globe
+  Scale,
+  ClipboardCheck,
+  FileBadge,
+  Beaker,
+  Code
 } from 'lucide-react';
 import './Dashboard.css';
 import CreateProjectModal from '../Components/CreateProjectModal';
@@ -26,7 +30,6 @@ const QUICK_TOOLS = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  // We don't even need selectedProject here anymore for the logic
   const { projects, activityFeed } = useProject(); 
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -35,9 +38,40 @@ const Dashboard = () => {
   const formattedName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
   const name = formattedName;
 
-  // 3 Most Recent Projects
+  // --- HELPER: Get True "Last Updated" Time ---
+  const getLastActivityInfo = (project) => {
+    // 1. Get logs specific to this project
+    const projectLogs = activityFeed.filter(a => a.project_id === project.id);
+    
+    // 2. Start with the project creation time
+    let lastTime = new Date(project.created_at);
+    let label = "Created";
+
+    // 3. Check if there are any recent tool runs (Logs)
+    if (projectLogs.length > 0) {
+      const lastLogTime = new Date(projectLogs[0].created_at);
+      if (lastLogTime > lastTime) {
+        lastTime = lastLogTime;
+        label = "Updated";
+      }
+    }
+
+    // 4. Also check explicit project updates
+    if (project.updated_at) {
+      const serverUpdate = new Date(project.updated_at);
+      if (serverUpdate > lastTime) {
+        lastTime = serverUpdate;
+        label = "Updated";
+      }
+    }
+
+    return { lastTime, label };
+  };
+
+  // --- SORTING: 3 Most Recent Projects ---
   const recentProjects = [...projects]
-    .sort((a, b) => new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at))
+    .map(p => ({ ...p, ...getLastActivityInfo(p) })) 
+    .sort((a, b) => b.lastTime - a.lastTime)         
     .slice(0, 3);
 
   return (
@@ -94,14 +128,16 @@ const Dashboard = () => {
                     <h4>{project.name}</h4>
                     <div className="meta-tags">
                       <span className="time-tag">
-                        {project.updated_at && project.updated_at !== project.created_at
-                          ? `Updated ${new Date(project.updated_at).toLocaleString()}`
-                          : `Created ${new Date(project.created_at).toLocaleString()}`}
+                        {project.label} {project.lastTime.toLocaleDateString()}
                       </span>
                     </div>
                   </div>
 
-                  <button onClick={() => navigate('/projects')} className="btn-view-mini">
+                  {/* 👇 THIS IS THE BUTTON I FIXED 👇 */}
+                  <button 
+                    onClick={() => navigate(`/projects/${project.id}`)} 
+                    className="btn-view-mini"
+                  >
                     Open
                   </button>
                 </motion.div>
@@ -121,7 +157,7 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* ACTIVITY FEED CARD - ALWAYS GLOBAL */}
+        {/* ACTIVITY FEED CARD */}
         <section className="dash-card analysis-card">
           <div className="card-header">
             <h3 className="flex items-center gap-2">
@@ -139,20 +175,32 @@ const Dashboard = () => {
                   transition={{ delay: index * 0.05 }}
                   className="activity-item"
                   onClick={() => {
-                     if (item.route) {
-                       navigate(`${item.route}?project_id=${item.project_id}`)
+                     if (item.project_id) {
+                       navigate(`/projects/${item.project_id}`)
                      }
                   }}
-                  style={{ cursor: item.route ? 'pointer' : 'default' }}
+                  style={{ cursor: item.project_id ? 'pointer' : 'default' }}
                 >
                   <div className="activity-icon">
-                    {/* Icon Logic based on Tool ID */}
-                    {item.tool_id === 'risk-analysis' ? (
+                    {/* ICON LOGIC */}
+                    {item.tool_id === 'arch-gen' ? (
+                      <Lightbulb size={18} className="text-blue-400" />
+                    ) : item.tool_id === 'trade-off' ? (
+                      <Scale size={18} className="text-pink-400" />
+                    ) : item.tool_id === 'stack-selector' ? (
+                      <Layers size={18} className="text-purple-400" />
+                    ) : item.tool_id === 'design-review' ? (
+                      <ClipboardCheck size={18} className="text-amber-400" />
+                    ) : item.tool_id === 'risk-analysis' ? (
                       <ShieldAlert size={18} className="text-red-400" />
-                    ) : item.tool_id === 'arch-gen' ? (
-                      <Layers size={18} className="text-blue-400" />
+                    ) : item.tool_id === 'compliance' ? (
+                      <FileBadge size={18} className="text-cyan-400" />
+                    ) : item.tool_id === 'test-case' ? (
+                      <Beaker size={18} className="text-teal-400" />
+                    ) : item.tool_id === 'codegen' ? (
+                      <Code size={18} className="text-indigo-400" />
                     ) : item.tool_id === 'debug-code' ? (
-                      <Bug size={18} className="text-purple-400" />
+                      <Bug size={18} className="text-rose-400" />
                     ) : (
                       <Activity size={18} className="text-slate-400"/>
                     )}

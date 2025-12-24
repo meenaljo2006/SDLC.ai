@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   ClipboardCheck, ArrowRight, Loader2, AlertOctagon, 
-  ShieldAlert, CheckSquare, Activity, FileText, X
+  ShieldAlert, CheckSquare, Activity, FileText, X, CheckCircle2 // <--- Import CheckCircle2
 } from 'lucide-react';
 import './DesignReviewer.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Tag Input ---
 const TagInput = ({ label, tags, setTags, placeholder }) => {
@@ -64,6 +65,8 @@ const SeverityBadge = ({ level }) => {
 
 // --- MAIN COMPONENT ---
 const DesignReviewer = () => {
+  const { selectedProject, logActivity } = useProject();
+
   // Inputs
   const [document, setDocument] = useState("");
   const [qualityGoals, setQualityGoals] = useState([]);
@@ -73,10 +76,12 @@ const DesignReviewer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!document.trim()) return setError("Design document description is required.");
@@ -91,7 +96,6 @@ const DesignReviewer = () => {
     };
 
     try {
-
       const API_URL = "https://sdlc.testproject.live/api/v1/review/";
 
       // API Call
@@ -114,7 +118,14 @@ const DesignReviewer = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        logActivity('design-review', 'Design Reviewer', document, data);
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Design Reviewer",
@@ -201,16 +212,29 @@ const DesignReviewer = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 1. EXECUTIVE SUMMARY */}
             <div className="summary-card">
               <div className="summary-reviewheader">
                 <FileText size={22} className="summary-icon" />
                 <h4>Executive Summary</h4>
               </div>
-
               <p>{result.summary}</p>
             </div>
-
 
             {/* 2. IDENTIFIED RISKS */}
             <h4 className="section-reviewtitle">Identified Risks</h4>

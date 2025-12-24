@@ -3,7 +3,7 @@
   padding: 2rem;
   padding-left: 1rem; 
   padding-top: 1rem;
-  margin-left: var(--sidebar-width, 0px); 
+  margin-left: var(--sidebar-width, 290px); 
   height: 100%;
   overflow-y: auto;
   color: #fff;
@@ -65,11 +65,12 @@
 
 /* --- LIST VIEW STYLES --- */
 
-.projects-list-stack { display: flex; flex-direction: column; gap: 1rem; }
+.projects-list-stack { display: flex; flex-direction: column; gap: 1rem;}
 
 /* The Card Container */
 .project-row-card {
-  display: flex; flex-direction: column; background-color: #0f172a; border: 1px solid #334155;
+  display: flex; flex-direction: column; background: rgba(30, 41, 59, 0.4); /* Transparent Card */
+    backdrop-filter: blur(12px); border: 1px solid #334155;
   border-radius: 0.75rem; padding: 1.25rem; cursor: pointer; transition: all 0.2s ease; position: relative;
 }
 @media (min-width: 768px) { .project-row-card { flex-direction: row; align-items: center; padding: 1rem 1.5rem; } }
@@ -96,7 +97,7 @@
   border-radius: 9999px; background-color: rgba(16, 185, 129, 0.15); color: #34d399;
   border: 1px solid rgba(16, 185, 129, 0.2); font-weight: 600; text-transform: uppercase;
 }
-.project-desc { font-size: 0.875rem; color: #94a3b8; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-desc { font-size: 0.875rem; color: #94a3b8; margin: 0; overflow: hidden; text-overflow: ellipsis; }
 .project-date { font-size: 0.75rem; color: #64748b; margin: 0; }
 
 /* RIGHT: Actions */
@@ -122,13 +123,13 @@
 
 /* Active State (Purple Glow) */
 .stat-usage-badge.active {
-  border-color: #8b5cf6; /* Purple border */
+  border-color: #aba4bc; /* Purple border */
   color: #e9d5ff; /* Light purple text */
-  background-color: rgba(139, 92, 246, 0.1); /* Subtle purple bg */
+  /* background-color: rgba(139, 92, 246, 0.1); Subtle purple bg */
 }
 
 /* Specific SVG colors helper */
-.text-purple-400 { color: #c084fc; }
+/* .text-purple-400 { color: #c084fc; } */
 .text-slate-500 { color: #64748b; }
 
 /* Delete Button */

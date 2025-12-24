@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   Beaker, ArrowRight, Loader2, CheckCircle, 
   AlertTriangle, PlayCircle, FileText, ListChecks,
-  X
+  X, CheckCircle2 // <--- Import CheckCircle2
 } from 'lucide-react';
 import './TestCaseBuilder.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Tag Input ---
 const TagInput = ({ label, tags, setTags, placeholder }) => {
@@ -62,15 +63,18 @@ const TestCaseBuilder = () => {
   const [count, setCount] = useState(5);
   const [nonFunctionals, setNonFunctionals] = useState([]);
   const [constraints, setConstraints] = useState([]);
+  const { selectedProject, logActivity } = useProject();
 
   // State
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!userStory.trim()) return setError("User Story is required.");
@@ -85,7 +89,6 @@ const TestCaseBuilder = () => {
     };
 
     try {
-
       const API_URL = "https://sdlc.testproject.live/api/v1/testcases/";
 
       // API Call
@@ -108,7 +111,14 @@ const TestCaseBuilder = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        logActivity('test-case', 'Test Case Builder', userStory, data);
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Test Case Builder",
@@ -205,6 +215,21 @@ const TestCaseBuilder = () => {
 
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
+            
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="cases-list">
               {result.cases.map((testCase, idx) => (

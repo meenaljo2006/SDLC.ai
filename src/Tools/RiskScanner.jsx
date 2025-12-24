@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   ShieldAlert, ArrowRight, Loader2, AlertTriangle, 
-  Activity, AlertOctagon, ShieldCheck, FileText, X
+  Activity, AlertOctagon, ShieldCheck, FileText, X, CheckCircle2 // <--- Import CheckCircle2
 } from 'lucide-react';
 import './RiskScanner.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Tag Input ---
 const TagInput = ({ label, tags, setTags, placeholder }) => {
@@ -68,15 +69,18 @@ const RiskScanner = () => {
   const [design, setDesign] = useState("");
   const [nonFunctionals, setNonFunctionals] = useState([]);
   const [constraints, setConstraints] = useState([]);
+  const { selectedProject, logActivity } = useProject();
 
   // State
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!design.trim()) return setError("System design description is required.");
@@ -90,7 +94,6 @@ const RiskScanner = () => {
     };
 
     try {
-
       const API_URL = "https://sdlc.testproject.live/api/v1/risk/";
 
       // API Call
@@ -118,7 +121,14 @@ const RiskScanner = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        logActivity('risk-analysis', 'Risk Scanner', design, data);
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Risk Scanner",
@@ -205,6 +215,21 @@ const RiskScanner = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 1. SUMMARY CARD */}
             <div className="summary-card">
               <div className="summary-riskheader">

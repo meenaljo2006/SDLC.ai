@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // <--- Import AnimatePresence
 import { 
   Bug, ArrowRight, Loader2, AlertCircle, 
-  CheckCircle, FileCode, Terminal, AlertTriangle, Lightbulb
+  CheckCircle, FileCode, Terminal, AlertTriangle, Lightbulb, CheckCircle2 // <--- Import CheckCircle2
 } from 'lucide-react';
 import './SmartDebugger.css';
+import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Copy Button ---
 const CopyButton = ({ text }) => {
@@ -30,15 +31,18 @@ const SmartDebugger = () => {
   const [traceback, setTraceback] = useState("");
   const [expectedBehavior, setExpectedBehavior] = useState("");
   const [language, setLanguage] = useState("");
+  const { selectedProject, logActivity } = useProject();
 
   // State
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [isSaved, setIsSaved] = useState(false); // <--- NEW STATE
 
   const handleSubmit = async () => {
     setError("");
     setResult(null);
+    setIsSaved(false); // Reset saved state
 
     // Validation
     if (!failingCode.trim()) return setError("Please paste the failing code.");
@@ -55,7 +59,6 @@ const SmartDebugger = () => {
     };
 
     try {
-
       const API_URL = "https://sdlc.testproject.live/api/v1/debug/";
 
       // API Call
@@ -78,7 +81,16 @@ const SmartDebugger = () => {
 
       setResult(data);
 
-      // Save History
+      // 👇 NEW: Save Logic
+      if (selectedProject) {
+        const inputLog = `Code:\n${failingCode}\n\nError:\n${traceback}`;
+        logActivity('debug-code', 'Smart Debugger', inputLog, data);
+        
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 3000);
+      }
+
+      // Legacy LocalStorage
       const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
       history.unshift({
         toolName: "Smart Debugger",
@@ -107,7 +119,6 @@ const SmartDebugger = () => {
         </div>
 
         <div className="debugger-form">
-          
           <div className="form-group">
             <label className="form-label">Language</label>
             <input 
@@ -188,6 +199,21 @@ const SmartDebugger = () => {
         {result && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="results-content">
             
+            {/* 👇 NEW: AUTO-SAVE BANNER */}
+            <AnimatePresence>
+              {isSaved && selectedProject && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="auto-save-banner"
+                >
+                  <CheckCircle2 size={16} />
+                  <span>Output auto-saved to <strong>{selectedProject?.name}</strong> history.</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* 1. ROOT CAUSE */}
             <div className="root-cause-card">
               <div className="rc-header">

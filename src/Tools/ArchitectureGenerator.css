@@ -139,6 +139,25 @@
   text-align: center;
 }
 
+/* Auto Save Banner Style */
+.auto-save-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(16, 185, 129, 0.15); /* Green Tint */
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399; /* Bright Green Text */
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.auto-save-banner strong {
+  color: #fff;
+  font-weight: 600;
+}
+
 /* Result Styles */
 .result-header {
   background: linear-gradient(90deg, rgba(34, 211, 238, 0.1), transparent);
