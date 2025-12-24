@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import {
   getProjects,
   createProject,
-  getProjectHistory
+  getProjectHistory,
+  deleteProject
 } from '../Services/ProjectService';
 
 const ProjectContext = createContext(null);
@@ -72,6 +73,27 @@ export const ProjectProvider = ({ children }) => {
     return newProject;
   };
 
+  const removeProject = async (projectId) => {
+    try {
+      // 1. Call API
+      await deleteProject(projectId);
+
+      // 2. Update Projects List State
+      setProjects(prev => prev.filter(p => p.id !== projectId));
+
+      // 3. Remove this project's logs from the Global Activity Feed (Clean up)
+      setActivityFeed(prev => prev.filter(item => item.project_id !== projectId));
+
+      // 4. If the deleted project was currently selected, deselect it
+      if (selectedProject?.id === projectId) {
+        setSelectedProject(null);
+      }
+    } catch (err) {
+      console.error("Delete failed", err);
+      throw err;
+    }
+  };
+
   // Initial Load
   useEffect(() => {
     fetchProjects();
@@ -89,7 +111,8 @@ export const ProjectProvider = ({ children }) => {
         fetchProjects,
         addProject,
         selectedProject,
-        setSelectedProject
+        setSelectedProject,
+        removeProject
       }}
     >
       {children}

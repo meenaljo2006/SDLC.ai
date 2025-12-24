@@ -36,3 +36,20 @@ export const getProjectHistory = async (projectId) => {
   if (!res.ok) throw new Error('Failed to fetch history');
   return res.json();
 };
+
+export const deleteProject = async (projectId) => {
+  const token = localStorage.getItem('token')?.replace(/^"|"$/g, "");
+  const res = await fetch(`${BASE_URL}/projects/${projectId}`, {
+    method: 'DELETE',
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'x-api-key': 'supersecret123'
+
+    }
+  });
+  
+  // The API returns { message: "Project deleted" } or similar
+  if (!res.ok) throw new Error('Failed to delete project');
+  return res.json();
+};

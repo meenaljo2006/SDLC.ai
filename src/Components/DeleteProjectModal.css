@@ -1,0 +1,100 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-box.delete-modal {
+  width: 100%;
+  max-width: 420px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Ensure height transition if content changes size */
+  transition: all 0.3s ease;
+  min-height: 200px; /* Prevent layout jump */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* === SUCCESS STATE STYLES === */
+.modal-success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.success-icon-wrapper {
+  color: #34d399; /* Emerald-400 */
+  margin-bottom: 1rem;
+}
+
+.success-icon-animate {
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-success-content h3 {
+  color: #fff;
+  font-size: 1.25rem;
+  margin: 0;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* === STANDARD MODAL STYLES === */
+.header-title-danger { display: flex; align-items: center; gap: 0.75rem; }
+
+.danger-icon-bg {
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  background-color: rgba(239, 68, 68, 0.15); color: #ef4444;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.modal-deleteheader { display: flex; justify-content: space-between; align-items: flex-start; }
+.modal-deleteheader h3 { margin: 0; color: #f1f5f9; font-size: 1.125rem; }
+
+.modal-close-btn {
+  background: transparent; border: none; color: #64748b; cursor: pointer; transition: color 0.2s;
+}
+.modal-close-btn:hover { color: #fff; }
+
+.modal-deletebody { margin: 0 0 2rem 0; color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+.modal-deletebody .sub-text { font-size: 0.85rem; margin-top: 0.5rem; color: #64748b; }
+.text-white { color: #fff; font-weight: 600; }
+
+.modal-footer { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: auto; }
+
+.btn-cancel {
+  padding: 0.6rem 1.2rem; border-radius: 0.5rem; border: 1px solid #334155;
+  background: transparent; color: #cbd5e1; font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.btn-cancel:hover { background-color: #1e293b; }
+
+.btn-delete-confirm {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 1.2rem; border-radius: 0.5rem; border: none;
+  background-color: #ef4444; color: white; font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.btn-delete-confirm:hover { background-color: #dc2626; }
+.btn-delete-confirm:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn { 
+  0% { transform: scale(0); opacity: 0; } 
+  70% { transform: scale(1.2); } 
+  100% { transform: scale(1); opacity: 1; } 
+}
