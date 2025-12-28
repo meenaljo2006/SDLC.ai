@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, FileText, Settings, LogOut, ChevronLeft, ChevronRight,
@@ -6,6 +6,7 @@ import {
   Beaker, Code, Bug
 } from 'lucide-react';
 import './Sidebar.css';
+import { useProject } from '../Context/ProjectContext'; // <--- 1. IMPORT THIS
 
 // AI Tools JSON
 export const AI_TOOLS = [
@@ -44,21 +45,20 @@ const iconMap = {
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // ⭐ Detect current route
+  const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  
+  // 2. GET THE RESET FUNCTION
+  const { resetProjectData } = useProject(); 
 
   const userEmail = localStorage.getItem('email') || "User";
-  const emailInitial = userEmail.charAt(0).toUpperCase();
 
- 
   useEffect(() => {
-    // fallback width values
     const desktopWidth = isCollapsed ? '80px' : '290px';
     const isMobile = window.matchMedia('(max-width: 900px)').matches;
     document.documentElement.style.setProperty('--sidebar-width', isMobile ? '0px' : desktopWidth);
   }, [isCollapsed]);
 
-  // ensure correct value on mount and when resizing
   useEffect(() => {
     const applyWidth = () => {
       const isMobile = window.matchMedia('(max-width: 900px)').matches;
@@ -70,8 +70,15 @@ const Sidebar = () => {
     return () => window.removeEventListener('resize', applyWidth);
   }, [isCollapsed]);
 
+  // 3. UPDATE LOGOUT FUNCTION
   const handleLogout = () => {
+    // A. Clear Storage
     localStorage.clear();
+
+    // B. Clear React State (Projects & Feed)
+    resetProjectData();
+
+    // C. Navigate
     navigate('/login');
   };
 

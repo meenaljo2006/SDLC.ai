@@ -100,9 +100,20 @@ export const ProjectProvider = ({ children }) => {
 
     } catch (err) {
       console.error("Error loading system data:", err);
+      // Optional: if auth error (401), clear projects automatically
+      setProjects([]);
+      setActivityFeed([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  // --- NEW: Function to Reset Data (Call this on Logout) ---
+  const resetProjectData = () => {
+    setProjects([]);
+    setActivityFeed([]);
+    setSelectedProject(null);
+    setLoading(false);
   };
 
   const addProject = async (payload) => {
@@ -144,7 +155,8 @@ export const ProjectProvider = ({ children }) => {
         selectedProject,
         setSelectedProject,
         removeProject,
-        logActivity // <--- Exporting this so Tools can use it
+        logActivity,
+        resetProjectData 
       }}
     >
       {children}

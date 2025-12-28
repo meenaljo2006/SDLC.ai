@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
+import { useProject } from '../Context/ProjectContext';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { fetchProjects } = useProject();
 
   // Handle Input Change
   const handleChange = (e) => {
@@ -63,7 +65,7 @@ const Login = () => {
       localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('email', formData.email);
 
-
+      await fetchProjects();
       navigate('/dashboard'); // Redirect to Dashboard
 
     } catch (err) {
