@@ -1,0 +1,122 @@
+/* Container */
+.cg-history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Explanation Card */
+.cg-explanation-card {
+  background: rgba(59, 130, 246, 0.1); /* Blue tint */
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.cg-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.cg-card-header h4 {
+  margin: 0;
+  font-weight: 700;
+  color: #60a5fa; /* Blue-400 */
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cg-explanation-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* Code Card */
+.cg-code-card {
+  background: #0f172a; /* Slate-900 */
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cg-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b; /* Slate-800 */
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #334155;
+}
+
+.cg-file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.cg-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.cg-copy-btn:hover {
+  color: #fff;
+}
+
+.cg-code-block {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #a5f3fc; /* Cyan-200 for code text */
+  background: #0b1120; /* Very dark slate */
+}
+
+/* Libraries Section */
+.cg-libs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cg-libs-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cg-libs-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cg-lib-tag {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  background: #1e293b;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #334155;
+}

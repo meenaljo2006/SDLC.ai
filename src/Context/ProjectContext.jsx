@@ -6,6 +6,10 @@ import {
   deleteProject 
 } from '../Services/ProjectService';
 
+// 1. IMPORT FIREBASE
+import { db } from '../firebaseConfig'; 
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore'; 
+
 const ProjectContext = createContext(null);
 
 export const useProject = () => {
@@ -20,8 +24,8 @@ export const ProjectProvider = ({ children }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // --- NEW: Helper to save logs locally ---
-  const logActivity = (toolId, toolName, inputData, outputData) => {
+  // --- NEW: Helper to save logs to FIREBASE ---
+  const logActivity = async (toolId, toolName, inputData, outputData) => {
     // 1. If Sandbox (no project selected), DO NOT SAVE.
     if (!selectedProject) return;
 
@@ -29,30 +33,48 @@ export const ProjectProvider = ({ children }) => {
     
     // 2. Create the log object
     const newLog = {
-      id: Date.now(), // unique ID
       project_id: projectId,
       project_name: selectedProject.name,
       tool_id: toolId,
       tool: toolName,
       input: inputData,   // Saving the prompt
-      output: outputData, // Saving the result (code/diagram)
+      output: outputData, // Saving the result
       created_at: new Date().toISOString()
     };
 
-    // 3. Save to LocalStorage (The "Shadow" DB)
-    const storageKey = `project_logs_${projectId}`;
-    const existingLogs = JSON.parse(localStorage.getItem(storageKey) || '[]');
-    const updatedLogs = [newLog, ...existingLogs]; // Add to top
-    localStorage.setItem(storageKey, JSON.stringify(updatedLogs));
-
-    // 4. Update the Global Feed State immediately so Dashboard updates
-    setActivityFeed(prev => [newLog, ...prev]);
+    try {
+      // 3. Save to FIREBASE Collection "logs"
+      await addDoc(collection(db, "logs"), newLog);
+      
+      // 4. Update the Global Feed State immediately (Optimistic Update)
+      setActivityFeed(prev => [newLog, ...prev]);
+      
+    } catch (e) {
+      console.error("Error saving log to Firebase:", e);
+    }
   };
 
-  // --- UPDATED: Fetch history (Merges API + Local) ---
+  // --- UPDATED: Fetch history (Merges API + Firebase) ---
   const fetchProjectHistory = async (projectId, projectName) => {
     try {
-      // A. Try fetching real API history
+      // A. Fetch REAL LOGS from Firebase
+      let firebaseLogs = [];
+      try {
+        const q = query(
+          collection(db, "logs"),
+          where("project_id", "==", projectId)
+        );
+        
+        const querySnapshot = await getDocs(q);
+        firebaseLogs = querySnapshot.docs.map(doc => ({
+           id: doc.id, 
+           ...doc.data() 
+        }));
+      } catch (e) {
+        console.error("Firebase fetch error:", e);
+      }
+
+      // B. Fetch API logs (In case backend gets fixed later)
       let apiLogs = [];
       try {
         const data = await getProjectHistory(projectId);
@@ -64,15 +86,11 @@ export const ProjectProvider = ({ children }) => {
           created_at: item.timestamp || item.created_at
         }));
       } catch (e) {
-        // If API fails or is empty, just ignore
+        // Ignore API errors
       }
 
-      // B. Fetch "Shadow" LocalStorage history
-      const storageKey = `project_logs_${projectId}`;
-      const localLogs = JSON.parse(localStorage.getItem(storageKey) || '[]');
-
       // C. Merge both
-      return [...localLogs, ...apiLogs];
+      return [...firebaseLogs, ...apiLogs];
 
     } catch (err) {
       console.warn(`Failed to fetch history for project ${projectId}`, err);
@@ -89,18 +107,18 @@ export const ProjectProvider = ({ children }) => {
       const sortedProjects = [...projectList].sort((a, b) => b.id - a.id);
       setProjects(sortedProjects);
 
-      // Fetch history for all projects (API + Local)
+      // Fetch history for all projects (API + Firebase)
       const historyPromises = sortedProjects.map(p => fetchProjectHistory(p.id, p.name));
       const allHistories = await Promise.all(historyPromises);
       
       const globalFeed = allHistories.flat();
+      // Sort by date (Newest first)
       globalFeed.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
       setActivityFeed(globalFeed);
 
     } catch (err) {
       console.error("Error loading system data:", err);
-      // Optional: if auth error (401), clear projects automatically
       setProjects([]);
       setActivityFeed([]);
     } finally {
@@ -108,12 +126,13 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  // --- NEW: Function to Reset Data (Call this on Logout) ---
+  // --- Reset Data (Call on Logout) ---
   const resetProjectData = () => {
     setProjects([]);
     setActivityFeed([]);
     setSelectedProject(null);
     setLoading(false);
+    localStorage.removeItem("currentProjectId"); // Clear saved ID
   };
 
   const addProject = async (payload) => {
@@ -128,17 +147,40 @@ export const ProjectProvider = ({ children }) => {
       setProjects(prev => prev.filter(p => p.id !== projectId));
       setActivityFeed(prev => prev.filter(item => item.project_id !== projectId));
       
-      // Also clean up the local storage logs for this project!
-      localStorage.removeItem(`project_logs_${projectId}`);
+      // Note: We are NOT deleting logs from Firebase automatically for safety.
 
       if (selectedProject?.id === projectId) {
         setSelectedProject(null);
+        localStorage.removeItem("currentProjectId"); // Clear if deleted
       }
     } catch (err) {
       console.error("Delete failed", err);
       throw err;
     }
   };
+
+  // --- NEW: Helper to sync selection with LocalStorage ---
+  const handleSetSelectedProject = (project) => {
+    setSelectedProject(project);
+    if (project?.id) {
+      localStorage.setItem("currentProjectId", project.id);
+    } else {
+      localStorage.removeItem("currentProjectId");
+    }
+  };
+
+  // --- EFFECT: Restore selection on reload ---
+  useEffect(() => {
+    if (projects.length > 0) {
+      const savedProjectId = localStorage.getItem("currentProjectId");
+      if (savedProjectId) {
+        const foundProject = projects.find(p => p.id === parseInt(savedProjectId));
+        if (foundProject) {
+          setSelectedProject(foundProject);
+        }
+      }
+    }
+  }, [projects]);
 
   useEffect(() => {
     fetchProjects();
@@ -153,7 +195,7 @@ export const ProjectProvider = ({ children }) => {
         fetchProjects,
         addProject,
         selectedProject,
-        setSelectedProject,
+        setSelectedProject: handleSetSelectedProject, // Use the wrapper!
         removeProject,
         logActivity,
         resetProjectData 

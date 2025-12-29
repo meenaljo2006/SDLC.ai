@@ -116,22 +116,21 @@ const TradeOffAnalyzer = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        const inputLog = `Option A: ${optionA}\nOption B: ${optionB}\nContext: ${context}`;
-        logActivity('trade-off', 'Trade-off Analyzer', inputLog, data);
-        
+        const fullInputLog = `Comparison: ${optionA} vs ${optionB}
+
+Context:
+${context}
+
+Criteria:
+- ${criteria.join('\n- ')}
+
+Constraints:
+- ${constraints.join('\n- ')}`;
+
+        logActivity('trade-off', 'Trade-off Analyzer', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Trade-off Analyzer",
-        date: new Date().toLocaleDateString(),
-        score: 100,
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

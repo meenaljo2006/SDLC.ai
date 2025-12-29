@@ -1,0 +1,121 @@
+/* Container */
+.tcb-history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header */
+.tcb-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #334155;
+}
+
+.tcb-summary-header h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2dd4bf; /* Teal-400 */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Cases List */
+.tcb-cases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Individual Card */
+.tcb-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Card Header */
+.tcb-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #334155;
+}
+
+.tcb-title-group {
+  align-items: center;
+  gap: 10px;
+}
+
+.tcb-id {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #64748b;
+  background: rgba(0,0,0,0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tcb-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+/* Type Badge */
+.tcb-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* BDD Grid */
+.tcb-bdd-grid {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.tcb-bdd-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tcb-label-col {
+  min-width: 50px;
+  text-align: right;
+  padding-top: 2px;
+}
+
+.tcb-bdd-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #0f172a; /* Dark text for contrast */
+}
+
+.tcb-bdd-label.given { background: #cbd5e1; } /* Slate */
+.tcb-bdd-label.when { background: #fbbf24; }  /* Amber */
+.tcb-bdd-label.then { background: #4ade80; }  /* Green */
+
+.tcb-bdd-row p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}

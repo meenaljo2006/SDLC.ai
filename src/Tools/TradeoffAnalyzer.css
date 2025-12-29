@@ -215,9 +215,6 @@
 }
 
 .matrix-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 0.8rem;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   padding-bottom: 0.8rem;
@@ -225,6 +222,7 @@
 .criterion-name { color: #fff; font-weight: 600; font-size: 1.1rem; }
 
 .verdict-badge {
+  margin-top: 0.2rem;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -232,6 +230,7 @@
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
+  width:fit-content;
 }
 .verdict-a { background: rgba(34, 211, 238, 0.15); color: #22d3ee; } /* Cyan */
 .verdict-b { background: rgba(244, 114, 182, 0.15); color: #f472b6; } /* Pink */

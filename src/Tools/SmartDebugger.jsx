@@ -83,22 +83,21 @@ const SmartDebugger = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        const inputLog = `Code:\n${failingCode}\n\nError:\n${traceback}`;
-        logActivity('debug-code', 'Smart Debugger', inputLog, data);
-        
+        const fullInputLog = `Language: ${language}
+
+Failing Code:
+${failingCode}
+
+Traceback:
+${traceback}
+
+Expected Behavior:
+${expectedBehavior || "N/A"}`;
+
+        logActivity('debug', 'Smart Debugger', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Smart Debugger",
-        date: new Date().toLocaleDateString(),
-        score: 100,
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

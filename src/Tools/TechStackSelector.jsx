@@ -118,20 +118,18 @@ const TechStackSelector = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        logActivity('stack-selector', 'Stack Selector', architecture, data);
+        const fullInputLog = `Architecture:
+${architecture}
+
+Domain: ${domain}
+
+Quality Goals:
+- ${qualityGoals.join('\n- ')}`;
+
+        logActivity('stack-selector', 'Stack Selector', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Tech Stack Selector",
-        date: new Date().toLocaleDateString(),
-        score: data.performance_review?.[0]?.score || 0,
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

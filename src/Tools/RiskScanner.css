@@ -179,7 +179,7 @@
   text-transform: uppercase;
 }
 
-.risk-info h5 { margin: 0; color: #fff; font-size: 1.05rem; }
+.risk-info h6 { margin: 0; color: #fff; font-size: 1rem; }
 
 /* Score Badge */
 .risk-score-badge {

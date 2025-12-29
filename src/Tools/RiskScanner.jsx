@@ -93,6 +93,8 @@ const RiskScanner = () => {
       constraints: constraints
     };
 
+    console.log("🚀 Sending Payload:", JSON.stringify(payload, null, 2));
+
     try {
       const API_URL = "https://sdlc.testproject.live/api/v1/risk/";
 
@@ -123,20 +125,19 @@ const RiskScanner = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        logActivity('risk-analysis', 'Risk Scanner', design, data);
+        const fullInputLog = `Design Description:
+${design}
+
+Non-Functional Requirements:
+- ${nonFunctionals.length > 0 ? nonFunctionals.join('\n- ') : "None provided"}
+
+Constraints:
+- ${constraints.length > 0 ? constraints.join('\n- ') : "None provided"}`;
+
+        logActivity('risk', 'Risk Scanner', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Risk Scanner",
-        date: new Date().toLocaleDateString(),
-        score: data.risks?.length || 0, 
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);
@@ -247,7 +248,7 @@ const RiskScanner = () => {
                   <div className="risk-top">
                     <div className="risk-info">
                       <span className="risk-category">{risk.category}</span>
-                      <h5>{risk.description}</h5>
+                      <h6>{risk.description}</h6>
                     </div>
                     <RiskScoreBadge score={risk.score} />
                   </div>

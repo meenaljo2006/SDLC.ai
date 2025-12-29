@@ -1,0 +1,170 @@
+/* Container */
+.sd-history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Root Cause Card */
+.sd-root-cause-card {
+  background: rgba(244, 63, 94, 0.1); /* Rose tint */
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.sd-rc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.sd-rc-header h4 {
+  margin: 0;
+  font-weight: 700;
+  color: #fb7185; /* Rose-400 */
+  font-size: 1rem;
+}
+
+.sd-root-cause-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* Fix Card (Code) */
+.sd-fix-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sd-fix-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(22, 163, 74, 0.1); /* Green tint header */
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.sd-fix-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #4ade80;
+  font-size: 0.9rem;
+}
+
+.sd-copy-btn {
+  background: transparent;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #86efac;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sd-copy-btn:hover {
+  background: rgba(74, 222, 128, 0.2);
+  color: #fff;
+}
+
+.sd-fix-code-block {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #a7f3d0; /* Soft green code text */
+  background: #020617; /* Very dark bg */
+}
+
+/* Findings Section */
+.sd-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.5rem;
+}
+
+.sd-findings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sd-finding-item {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.sd-finding-cat {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.sd-finding-loc {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.sd-finding-item p {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+/* Optimization Notes */
+.sd-notes-section {
+  background: rgba(234, 179, 8, 0.05);
+  border: 1px dashed rgba(234, 179, 8, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.sd-notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sd-notes-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  margin-bottom: 0.4rem;
+}
+
+.sd-notes-list li::before {
+  content: "•";
+  color: #eab308;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}

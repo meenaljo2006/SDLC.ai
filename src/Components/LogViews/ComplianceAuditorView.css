@@ -1,0 +1,171 @@
+/* Container */
+.ca-history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Summary Card */
+.ca-summary-card {
+  background: rgba(16, 185, 129, 0.05); /* Emerald tint */
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.ca-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.ca-summary-header h4 {
+  margin: 0;
+  font-weight: 700;
+  color: #34d399; /* Emerald-400 */
+  font-size: 1rem;
+}
+
+.ca-regulation {
+  font-size: 0.75rem;
+  color: #6ee7b7; /* Emerald-300 */
+  font-weight: 500;
+  display: block;
+}
+
+.ca-summary-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* Sections */
+.ca-section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.5rem;
+}
+
+/* Findings List */
+.ca-findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ca-finding-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.ca-finding-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.ca-meta-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Line Badge (New) */
+.ca-line-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #334155;
+  font-family: monospace;
+}
+
+/* Type Label (New) */
+.ca-type-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.ca-check-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+/* Severity Badge */
+.ca-severity-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+/* Rec Box */
+.ca-rec-box {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.5);
+  border-left: 2px solid #60a5fa;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Perfect Score State */
+.ca-perfect-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 2rem;
+  background: rgba(34, 197, 94, 0.05);
+  border: 1px dashed rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  color: #4ade80;
+  font-weight: 500;
+}
+
+/* Remediation List */
+.ca-remediation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ca-rem-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.ca-rem-icon {
+  margin-top: 3px;
+  color: #34d399;
+}

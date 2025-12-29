@@ -113,20 +113,21 @@ const TestCaseBuilder = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        logActivity('test-case', 'Test Case Builder', userStory, data);
+        const fullInputLog = `User Story:
+${userStory}
+
+Count: ${count}
+
+Non-Functional Requirements:
+- ${nonFunctionals.join('\n- ')}
+
+Constraints:
+- ${constraints.join('\n- ')}`;
+
+        logActivity('test-gen', 'Test Case Builder', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Test Case Builder",
-        date: new Date().toLocaleDateString(),
-        score: data.cases?.length || 0,
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

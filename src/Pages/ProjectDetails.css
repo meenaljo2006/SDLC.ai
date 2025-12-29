@@ -296,3 +296,56 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* The Grid Container */
+.log-content-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 50% Left, 50% Right */
+  border-top: 1px solid #334155;
+  background-color: #020617;
+  min-height: 400px; /* Give it height */
+}
+
+/* Common Panel Styles */
+.log-panel {
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Left Side (Input) */
+.log-panel-left {
+  border-right: 1px solid #334155;
+  background: rgba(15, 23, 42, 0.3);
+}
+
+/* Right Side (Output) */
+.log-panel-right {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+/* Labels (e.g. "INPUT", "RESULT") */
+.panel-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #60a5fa; /* Blue accent */
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 1000px) {
+  .log-content-split {
+    grid-template-columns: 1fr;
+  }
+  .log-panel-left {
+    border-right: none;
+    border-bottom: 1px solid #334155;
+  }
+}

@@ -120,20 +120,19 @@ const DesignReviewer = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        logActivity('design-review', 'Design Reviewer', document, data);
+        const fullInputLog = `Document Content:
+${document}
+
+Quality Goals:
+- ${qualityGoals.length > 0 ? qualityGoals.join('\n- ') : "None provided"}
+
+Checklists:
+- ${checklists.length > 0 ? checklists.join('\n- ') : "None provided"}`;
+
+        logActivity('review', 'Design Reviewer', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Design Reviewer",
-        date: new Date().toLocaleDateString(),
-        score: data.risks?.length || 0, // Using risk count as a metric
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

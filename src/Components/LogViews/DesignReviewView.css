@@ -1,0 +1,157 @@
+/* Container */
+.dr-history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Summary Card */
+.dr-summary-card {
+  background: rgba(16, 185, 129, 0.05); /* Emerald tint */
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.dr-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.dr-summary-header h4 {
+  margin: 0;
+  font-weight: 700;
+  color: #34d399; /* Emerald-400 */
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dr-summary-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* Section Titles */
+.dr-section-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Risks Grid */
+.dr-risks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.dr-risk-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dr-risk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.dr-risk-area {
+  font-weight: 600;
+  color: #f1f5f9;
+  font-size: 0.95rem;
+}
+
+.dr-severity-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+}
+
+.dr-risk-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dr-risk-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dr-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.dr-value {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+/* Mitigation Box */
+.dr-mitigation-box {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.dr-mit-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #34d399; /* Emerald-400 */
+  margin-bottom: 4px;
+}
+
+.dr-mitigation-box p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* Actions List */
+.dr-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dr-action-item {
+  display: flex;
+  gap: 10px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  padding: 0.75rem;
+  border-radius: 6px;
+  align-items: flex-start;
+}
+
+.dr-action-item span {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}

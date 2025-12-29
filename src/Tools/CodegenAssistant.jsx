@@ -80,21 +80,24 @@ const CodegenAssistant = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        logActivity('codegen', 'Boilerplate Assistant', prompt, data);
         
+        // Create a readable string of all inputs
+        const fullInputLog = `Requirement Prompt:
+${prompt}
+
+Language: ${language}
+Framework: ${framework}`;
+
+        logActivity(
+          'codegen', 
+          'Boilerplate Assistant', 
+          fullInputLog, // <--- Passing the combined info here
+          data
+        );
+
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Codegen Assistant",
-        date: new Date().toLocaleDateString(),
-        score: 100, 
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

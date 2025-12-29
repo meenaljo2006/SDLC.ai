@@ -195,25 +195,31 @@ const ArchitectureGenerator = () => {
 
       // Save if project is selected
       if (selectedProject) {
+        
+        // 👇 CHANGE: Created this block to capture EVERYTHING
+        const fullInputLog = `Problem Statement:
+${problem}
+
+Quality Goals:
+- ${qualityGoals.join('\n- ')}
+
+Constraints:
+- ${constraints.join('\n- ')}
+
+Preferred Stack:
+- ${techStack.join('\n- ')}`;
+
+        // 👇 CHANGE: Passed 'fullInputLog' instead of just 'problem'
         logActivity(
           "arch-gen",
           "Architecture Generator",
-          problem,
+          fullInputLog, 
           data
         );
+        
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 4000);
       }
-
-      // Legacy History (Optional)
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Architecture Gen",
-        date: new Date().toLocaleDateString(),
-        score: 100,
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error("Detailed Error:", err);
@@ -325,10 +331,6 @@ const ArchitectureGenerator = () => {
               )}
             </AnimatePresence>
 
-            <div className="result-header">
-              <h3>AI Recommendation</h3>
-              <p>{result.recommendation}</p>
-            </div>
 
             <div className="options-grid">
               {result.options.map((option, idx) => (
@@ -367,6 +369,13 @@ const ArchitectureGenerator = () => {
                 </div>
               ))}
             </div>
+
+            <div className="result-header">
+              <h3>AI Recommendation</h3>
+              <p>{result.recommendation}</p>
+            </div>
+
+            
 
           </motion.div>
         )}

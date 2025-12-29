@@ -10,10 +10,20 @@ import {
   Terminal,
   Cpu,
   ChevronRightCircle,
-  Bot,Loader2
+  Bot,Loader2,FileInput, FileOutput
 } from 'lucide-react';
 import { useProject } from '../Context/ProjectContext';
 import './ProjectDetails.css';
+
+import ArchGenView from '../Components/LogViews/ArchGenView';
+import DesignReviewView from '../Components/LogViews/DesignReviewView';
+import CodeGenView from '../Components/LogViews/CodeGenView';
+import ComplianceAuditorView from '../Components/LogViews/ComplianceAuditorView';
+import RiskView from '../Components/LogViews/RiskView';
+import TradeOffView from '../Components/LogViews/TradeOffView';
+import SmartDebuggerView from '../Components/LogViews/SmartDebuggerView';
+import TestCaseBuilderView from '../Components/LogViews/TestCaseBuilderView';
+import TechStackView from '../Components/LogViews/TechStackView';
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -45,6 +55,36 @@ const ProjectDetails = () => {
       </div>
     );
   }
+
+  const renderOutputContent = (log) => {
+    // 1. If tool is Architecture Generator, show the fancy view
+    if (log.tool_id === 'arch-gen') {
+      return <ArchGenView data={log.output} />;
+    } else if (log.tool_id === 'review') {
+      return <DesignReviewView data={log.output} />;
+    } else if(log.tool_id ==='codegen'){
+      return <CodeGenView data={log.output} />;
+    } else if(log.tool_id === 'compliance'){
+      return <ComplianceAuditorView data={log.output} />;
+    } else if (log.tool_id==='risk'){
+      return <RiskView data={log.output} />;
+    } else if (log.tool_id ==='trade-off'){
+      return <TradeOffView data={log.output} />;
+    } else if(log.tool_id ==='debug'){
+      return <SmartDebuggerView data={log.output} />;
+    } else if(log.tool_id === 'test-gen'){
+      return <TestCaseBuilderView data={log.output} />;
+    } else if (log.tool_id==='stack-selector'){
+      return <TechStackView data={log.output} />;
+    }
+    
+    // 2. Fallback for others (Risk, CodeGen) - JSON Dump for now
+    return (
+      <pre className="code-box">
+        {JSON.stringify(log.output, null, 2)}
+      </pre>
+    );
+  };
 
   return (
     <div className="project-details-page no-scrollbar">
@@ -131,23 +171,31 @@ const ProjectDetails = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="log-content"
+                    className="log-content-split"  /* 👈 Uses the new CSS Grid */
                   >
-                    <div className="data-block">
-                      <label>Input / Prompt:</label>
+                    
+                    {/* LEFT SIDE: INPUT */}
+                    <div className="log-panel log-panel-left">
+                      <span className="panel-label">
+                        <FileInput size={14}/> Input Parameters
+                      </span>
+                      {/* Reuse your existing code-box style */}
                       <div className="code-box">
                         {log.input || "No input recorded."}
                       </div>
                     </div>
 
-                    <div className="data-block">
-                      <label>AI Response / Output:</label>
-                      <div className="code-box output-box">
-                         {typeof log.output === 'object' 
-                            ? JSON.stringify(log.output, null, 2) 
-                            : log.output || "No output recorded."}
+                    {/* RIGHT SIDE: OUTPUT */}
+                    <div className="log-panel log-panel-right">
+                      <span className="panel-label">
+                        <FileOutput size={14}/> AI Result
+                      </span>
+                      {/* 👈 Calls the helper to render ArchGenView */}
+                      <div className="mt-2">
+                        {renderOutputContent(log)}
                       </div>
                     </div>
+
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -102,21 +102,17 @@ const ComplianceAuditor = () => {
 
       // 👇 NEW: Save Logic
       if (selectedProject) {
-        logActivity('compliance', 'Compliance Auditor', codeSnippet, data);
-        
+        const fullInputLog = `Language: ${language}
+
+Standard/Context: ${standardContext || "General Best Practices"}
+
+Code Snippet:
+${codeSnippet}`;
+
+        logActivity('compliance', 'Compliance Auditor', fullInputLog, data);
         setIsSaved(true);
         setTimeout(() => setIsSaved(false), 3000);
       }
-
-      // Legacy LocalStorage
-      const history = JSON.parse(localStorage.getItem('analysis_history') || "[]");
-      history.unshift({
-        toolName: "Compliance Auditor",
-        date: new Date().toLocaleDateString(),
-        score: data.overall_score || 0,
-        timestamp: Date.now()
-      });
-      localStorage.setItem("analysis_history", JSON.stringify(history));
 
     } catch (err) {
       console.error(err);

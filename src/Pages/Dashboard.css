@@ -94,7 +94,8 @@
 
 
 .project-list{
-    width: 90%;
+  flex: 1;
+  width: 90%;
 }
 
 /* Project Item */
