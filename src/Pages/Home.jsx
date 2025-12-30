@@ -36,7 +36,7 @@ const Home = () => {
         initial="hidden"
         animate="show"
       >
-        <motion.div variants={itemVariants} className="badge">
+        <motion.div variants={itemVariants} className="Versionbadge">
           <span className="ping-dot"></span> v1.0 is now live
         </motion.div>
         

@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, 
-  Calendar, 
-  Layers, 
-  ChevronDown, 
-  ChevronUp, 
-  Terminal,
-  Cpu,
-  ChevronRightCircle,
-  Bot,Loader2,FileInput, FileOutput
+  ArrowLeft, Calendar, Layers, ChevronDown, ChevronUp, 
+  Terminal, Cpu, ChevronRightCircle, Bot, Loader2, FileInput, FileOutput,
+  // 👇 1. Add these icons for the tools
+  Lightbulb, Scale, ClipboardCheck, ShieldAlert, FileBadge, Beaker, Code, Bug, FileText
 } from 'lucide-react';
 import { useProject } from '../Context/ProjectContext';
 import './ProjectDetails.css';
+
+// 👇 2. Import AI_TOOLS to match names
+import { AI_TOOLS } from '../Components/Sidebar'; 
 
 import ArchGenView from '../Components/LogViews/ArchGenView';
 import DesignReviewView from '../Components/LogViews/DesignReviewView';
@@ -24,6 +22,30 @@ import TradeOffView from '../Components/LogViews/TradeOffView';
 import SmartDebuggerView from '../Components/LogViews/SmartDebuggerView';
 import TestCaseBuilderView from '../Components/LogViews/TestCaseBuilderView';
 import TechStackView from '../Components/LogViews/TechStackView';
+
+// 👇 3. Helper Component to render the correct icon
+const ToolIcon = ({ toolName }) => {
+  // Map string names to Lucide Components
+  const iconMap = {
+    Lightbulb, Scale, Layers, ClipboardCheck, ShieldAlert,
+    FileBadge, Beaker, Code, Bug, FileText
+  };
+
+  // Find the tool object in AI_TOOLS config
+  let iconName = "FileText"; // Default
+  
+  // Search through categories to find the matching tool name
+  for (const group of AI_TOOLS) {
+    const found = group.tools.find(t => t.name === toolName);
+    if (found) {
+      iconName = found.icon;
+      break;
+    }
+  }
+
+  const IconComponent = iconMap[iconName] || FileText;
+  return <IconComponent size={16} />;
+};
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -57,28 +79,16 @@ const ProjectDetails = () => {
   }
 
   const renderOutputContent = (log) => {
-    // 1. If tool is Architecture Generator, show the fancy view
-    if (log.tool_id === 'arch-gen') {
-      return <ArchGenView data={log.output} />;
-    } else if (log.tool_id === 'review') {
-      return <DesignReviewView data={log.output} />;
-    } else if(log.tool_id ==='codegen'){
-      return <CodeGenView data={log.output} />;
-    } else if(log.tool_id === 'compliance'){
-      return <ComplianceAuditorView data={log.output} />;
-    } else if (log.tool_id==='risk'){
-      return <RiskView data={log.output} />;
-    } else if (log.tool_id ==='trade-off'){
-      return <TradeOffView data={log.output} />;
-    } else if(log.tool_id ==='debug'){
-      return <SmartDebuggerView data={log.output} />;
-    } else if(log.tool_id === 'test-gen'){
-      return <TestCaseBuilderView data={log.output} />;
-    } else if (log.tool_id==='stack-selector'){
-      return <TechStackView data={log.output} />;
-    }
+    if (log.tool_id === 'arch-gen') return <ArchGenView data={log.output} />;
+    if (log.tool_id === 'review') return <DesignReviewView data={log.output} />;
+    if (log.tool_id === 'codegen') return <CodeGenView data={log.output} />;
+    if (log.tool_id === 'compliance') return <ComplianceAuditorView data={log.output} />;
+    if (log.tool_id === 'risk') return <RiskView data={log.output} />;
+    if (log.tool_id === 'trade-off') return <TradeOffView data={log.output} />;
+    if (log.tool_id === 'debug') return <SmartDebuggerView data={log.output} />;
+    if (log.tool_id === 'test-gen') return <TestCaseBuilderView data={log.output} />;
+    if (log.tool_id === 'stack-selector') return <TechStackView data={log.output} />;
     
-    // 2. Fallback for others (Risk, CodeGen) - JSON Dump for now
     return (
       <pre className="code-box">
         {JSON.stringify(log.output, null, 2)}
@@ -89,18 +99,14 @@ const ProjectDetails = () => {
   return (
     <div className="project-details-page no-scrollbar">
       
-      {/* === HEADER CONTAINER === */}
+      {/* HEADER */}
       <div className="details-header-container">
-        
-        {/* LEFT SIDE: Icon + Info (Name, Date, Desc) */}
         <div className="header-left">
           <div className="header-icon-large">
              <Layers size={32} />
           </div>
-          
           <div className="header-info">
             <h1 className="details-title">{project.name}</h1>
-            
             <div className="details-meta">
               <span className="meta-pill">
                 <Calendar size={12} /> Created: {new Date(project.created_at).toLocaleDateString()}
@@ -108,19 +114,14 @@ const ProjectDetails = () => {
             </div>
           </div>
         </div>
-
-        {/* RIGHT SIDE: Back Button */}
         <div className="header-right">
           <button onClick={() => navigate('/projects')} className="back-btn">
             Back to Projects <ChevronRightCircle size={18} /> 
           </button>
         </div>
-
       </div>
 
-      {project.description && 
-       project.description.trim() !== "" && 
-       project.description !== "No description provided" && (
+      {project.description && project.description.trim() !== "" && project.description !== "No description provided" && (
         <div className="description-box">
           <p>{project.description}</p>
         </div>
@@ -153,7 +154,8 @@ const ProjectDetails = () => {
               >
                 <div className="log-summary">
                   <div className="log-icon">
-                    <Cpu size={16} />
+                    {/* 👇 4. Use the new ToolIcon helper here */}
+                    <ToolIcon toolName={log.tool} />
                   </div>
                   <div className="log-title-block">
                     <span className="log-tool-name">{log.tool}</span>
@@ -171,7 +173,7 @@ const ProjectDetails = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="log-content-split"  /* 👈 Uses the new CSS Grid */
+                    className="log-content-split"
                   >
                     
                     {/* LEFT SIDE: INPUT */}
@@ -179,7 +181,6 @@ const ProjectDetails = () => {
                       <span className="panel-label">
                         <FileInput size={14}/> Input Parameters
                       </span>
-                      {/* Reuse your existing code-box style */}
                       <div className="code-box">
                         {log.input || "No input recorded."}
                       </div>
@@ -190,7 +191,6 @@ const ProjectDetails = () => {
                       <span className="panel-label">
                         <FileOutput size={14}/> AI Result
                       </span>
-                      {/* 👈 Calls the helper to render ArchGenView */}
                       <div className="mt-2">
                         {renderOutputContent(log)}
                       </div>

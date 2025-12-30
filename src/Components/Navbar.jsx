@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useNavigate } from "react-router-dom";
+import { Code2 } from 'lucide-react'; // 👈 Import the Icon
 import './Navbar.css';
 
 const Navbar = () => {
@@ -13,13 +13,18 @@ const Navbar = () => {
     <motion.nav 
       initial={{ y: -100, opacity: 0 }} 
       animate={{ y: 0, opacity: 1 }} 
-      transition={{ duration: 0.8, ease: "easeOut" }} // Step 1: Navbar drops in immediately
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="navbar"
     >
       <div className="navbar-glass">
         <Link to="/" className="logo">
-          <div className="logo-icon" />
-          <span>SDLC<span style={{ color: '#22d3ee' }}>.ai</span></span>
+          {/* 👇 Updated Logo Box */}
+          <div className="nav-logo-box">
+            <Code2 size={18} color="#fff" />
+          </div>
+          <span className="logo-text">
+            SDLC<span style={{ color: '#22d3ee' }}>.ai</span>
+          </span>
         </Link>
 
         <div className="nav-links">

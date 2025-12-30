@@ -188,7 +188,7 @@ const SDLCVisualizer = () => {
           <div className="node-title">Design Phase</div>
           <div className="node-subtitle">Architecture & UI</div>
         </div>
-        <div className="connector-knob bottom-knob"></div> 
+        {/* <div className="connector-knob bottom-knob"></div>  */}
       </motion.div>
 
       <motion.div 
@@ -204,7 +204,7 @@ const SDLCVisualizer = () => {
           <div className="node-title">Production</div>
           <div className="node-subtitle">Deployed Code</div>
         </div>
-        <div className="connector-knob top-knob"></div>
+        {/* <div className="connector-knob top-knob"></div> */}
       </motion.div>
 
     </motion.div>

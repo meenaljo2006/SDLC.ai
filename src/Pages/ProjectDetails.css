@@ -148,7 +148,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding-bottom: 3rem;
+  padding-bottom: 2.2rem;
 }
 
 .log-card {
@@ -188,6 +188,7 @@
   background-color: rgba(192, 132, 252, 0.1);
   padding: 0.5rem;
   border-radius: 0.5rem;
+  display: flex;
 }
 
 .log-title-block {
@@ -297,22 +298,26 @@
   }
 }
 
-
 /* The Grid Container */
 .log-content-split {
   display: grid;
   grid-template-columns: 1fr 1fr; /* 50% Left, 50% Right */
   border-top: 1px solid #334155;
   background-color: #020617;
-  min-height: 400px; /* Give it height */
+  /* min-height: 400px;  <-- REMOVED. Let content define height naturally */
 }
 
-/* Common Panel Styles */
+/* Common Panel Styles (APPLIED TO BOTH LEFT & RIGHT) */
 .log-panel {
   padding: 1.5rem;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
+
+  /* 👇 SCROLLING LOGIC MOVED HERE */
+  max-height: 500px;        /* Limits height for BOTH Input & Output */
+  overflow-y: auto;         /* Enables vertical scrolling */
+  scrollbar-width: thin;    /* Firefox */
+  scrollbar-color: #475569 transparent;
 }
 
 /* Left Side (Input) */
@@ -323,7 +328,27 @@
 
 /* Right Side (Output) */
 .log-panel-right {
+  /* flex: 1; <-- Not needed in Grid, but harmless */
   background: rgba(15, 23, 42, 0.6);
+  /* Removed max-height/overflow from here because it's now in .log-panel */
+}
+
+/* === SCROLLBAR STYLING (Now applies to BOTH via .log-panel) === */
+.log-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.log-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.log-panel::-webkit-scrollbar-thumb {
+  background-color: #475569; /* Slate-600 */
+  border-radius: 10px;
+}
+
+.log-panel::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b; /* Slate-500 */
 }
 
 /* Labels (e.g. "INPUT", "RESULT") */
@@ -347,5 +372,10 @@
   .log-panel-left {
     border-right: none;
     border-bottom: 1px solid #334155;
+  }
+  
+  /* Optional: Make them shorter on mobile so scrolling isn't tedious */
+  .log-panel {
+    max-height: 300px; 
   }
 }

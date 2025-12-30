@@ -27,22 +27,30 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 10px; /* Slight gap between icon and text */
   font-weight: 700;
   font-size: 1.1rem;
   color: #fff;
   text-decoration: none;
 }
 
-.logo-icon {
-  width: 20px;
-  height: 20px;
-  background-color: #22d3ee;
-  border-radius: 4px;
-  transform: rotate(45deg);
-  box-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+/* 👇 NEW: The box containing the Code2 icon */
+.nav-logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9); /* Cyan Gradient */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.4); /* Glow effect */
 }
 
+/* Optional: Typography tweak for the text */
+.logo-text {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+}
 .nav-links { 
   display: flex; 
   gap: 4px; 

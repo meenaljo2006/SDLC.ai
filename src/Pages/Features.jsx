@@ -56,7 +56,7 @@ const Features = () => {
         {/* 1. CORE ENGINE */}
         <motion.div className="bento-card core-card" variants={cardVariants}>
           <div className="card-bg-glow" />
-          <div className="card-header">
+          <div className="card-featuresheader">
             <Cpu className="card-icon" color="#22d3ee" />
             <h3>Hybrid AI Core</h3>
           </div>
@@ -78,7 +78,7 @@ const Features = () => {
 
         {/* 2. CODING ACCELERATION */}
         <motion.div className="bento-card coding-card" variants={cardVariants}>
-          <div className="card-header">
+          <div className="card-featuresheader">
             <Terminal className="card-icon" color="#34d399" />
             <h3>Dev Acceleration</h3>
           </div>
@@ -100,7 +100,7 @@ const Features = () => {
 
         {/* 3. SDLC COVERAGE */}
         <motion.div className="bento-card coverage-card" variants={cardVariants}>
-          <div className="card-header">
+          <div className="card-featuresheader">
             <Layout className="card-icon" color="#a78bfa" />
             <h3>Full SDLC Coverage</h3>
           </div>
