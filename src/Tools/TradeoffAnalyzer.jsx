@@ -4,7 +4,7 @@ import {
   Scale, ArrowRight, Loader2, CheckCircle2, 
   AlertTriangle, Sword, Trophy, Info
 } from 'lucide-react';
-import './TradeOffAnalyzer.css';
+import './TradeoffAnalyzer.css';
 import { useProject } from '../Context/ProjectContext';
 
 // --- Helper: Tag Input ---
