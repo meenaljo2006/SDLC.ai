@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './Pages/Home';
 import Features from './Pages/Features';
 import Workflow from './Pages/Workflow'; 
 import Login from './Pages/Login';
