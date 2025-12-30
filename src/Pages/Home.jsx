@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Mail } from 'lucide-react';
-import SDLCVisualizer from '../components/SDLCVisualizer';
+import SDLCVisualizer from '../Components/SDLCVisualizer';
 import './Home.css';
 import { useNavigate } from "react-router-dom";
 
