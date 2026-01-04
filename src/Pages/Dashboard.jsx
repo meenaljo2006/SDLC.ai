@@ -184,7 +184,7 @@ const Dashboard = () => {
                   <div className="activity-icon">
                     {/* ICON LOGIC */}
                     {item.tool_id === 'arch-gen' ? (
-                      <Lightbulb size={18} className="text-blue-400" />
+                      <Lightbulb size={18} className="text-iconblue-400" />
                     ) : item.tool_id === 'trade-off' ? (
                       <Scale size={18} className="text-pink-400" />
                     ) : item.tool_id === 'stack-selector' ? (
@@ -192,7 +192,7 @@ const Dashboard = () => {
                     ) : item.tool_id === 'design-review' ? (
                       <ClipboardCheck size={18} className="text-amber-400" />
                     ) : item.tool_id === 'risk-analysis' ? (
-                      <ShieldAlert size={18} className="text-red-400" />
+                      <ShieldAlert size={18} className="text-iconred-400" />
                     ) : item.tool_id === 'compliance' ? (
                       <FileBadge size={18} className="text-cyan-400" />
                     ) : item.tool_id === 'test-case' ? (
