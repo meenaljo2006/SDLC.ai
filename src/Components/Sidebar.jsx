@@ -133,7 +133,7 @@ const Sidebar = () => {
         ))}
 
         {/* Logout */}
-        <button onClick={handleLogout} className="nav-button logout-btn" style={{ marginTop: "auto" }}>
+        <button onClick={handleLogout} className="nav-button logout-btn">
           <LogOut size={20} className="nav-icon" />
           {!isCollapsed && <span>Logout</span>}
         </button>
