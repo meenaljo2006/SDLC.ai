@@ -23,5 +23,3 @@ This repository contains the **Frontend Client** (UI/UX).
 | **Icons** | Lucide React |
 | **Routing** | React Router DOM v6 |
 | **Deployment** | Vercel |
-
----
