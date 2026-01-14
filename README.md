@@ -1,16 +1,27 @@
-# React + Vite
+# 🚀 Intelligent SDLC Assistant 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg) 
+![Stack](https://img.shields.io/badge/React-Vite-success)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-Currently, two official plugins are available:
+**Stop switching between diagrams and IDEs.** SDLC.ai is the AI-powered platform that unifies **Architecture Design** and **Production Code** in one living ecosystem. It bridges the gap between system design and implementation using a Hybrid AI Core.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository contains the **Frontend Client** (UI/UX).
 
-## React Compiler
+🔗 **Live Demo:** [https://sdlc.ai.testproject.live](https://sdlc.ai.testproject.live/)  
+🔗 **Backend Repository:** [SDLC-backend by Krishna Singh](https://github.com/krishnasingh281/SDLC-backend.git)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Category | Technologies |
+| :--- | :--- |
+| **Framework** | React.js (v18), Vite |
+| **Styling** | CSS3 (Variables, Grid, Flexbox), Tailwind-like utility classes |
+| **Animations** | Framer Motion |
+| **Icons** | Lucide React |
+| **Routing** | React Router DOM v6 |
+| **Deployment** | Vercel |
+
+---
